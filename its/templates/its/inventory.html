@@ -69,7 +69,6 @@
                         <tr>
                             <th>#</th>
                             <th>Manufacture Name <i class="fa fa-sort" aria-hidden="true"></i></th>
-                            <th>Model</th>
                             <th>Type</th>
                             <th>Serial Number</th>
                             <th>Location</th>
@@ -80,47 +79,10 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- <tr>
-                            <th scope="row">1</th>
-                            <td>Dell</td>
-                            <td>OPTIPLEX GX280</td>
-                            <td>CPU</td>
-                            <td>8DPZN71</td>
-                            <td>Quadrant 4</td>
-                            <td>Mr. John Doe</td>
-                            <td>Active</td>
-                            <td>11/11/2018</td>
-                            <td class="text-center px-0"><input class="" type="checkbox"></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Dell</td>
-                            <td>Latitude D630</td>
-                            <td>Laptop</td>
-                            <td>8C90QD1</td>
-                            <td>Quadrant 3</td>
-                            <td>Ms. Jane Doe</td>
-                            <td>Not Working</td>
-                            <td>11/11/2018</td>
-                            <td class="text-center px-0"><input class="" type="checkbox"></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>CISCO</td>
-                            <td>Secure Access Control Server</td>
-                            <td>Server</td>
-                            <td>OMNCWT520051</td>
-                            <td>Annex Disposal Room</td>
-                            <td>Null</td>
-                            <td>Disposed</td>
-                            <td>11/11/2018</td>
-                            <td class="text-center p-0"><input class="" type="checkbox"></td>
-                        </tr> -->
                         {% for inventory in inventorys %}
                         <tr>
                             <th scope="row">{{ inventory.iid }}</th>
                             <td>{{ inventory.manufacture_name }}</td>
-                            <td></td>
                             <td>{{ inventory.device_type }}</td>
                             <td>{{ inventory.serial_number }}</td>
                             <td>{{ inventory.location }}</td>
@@ -134,7 +96,6 @@
                     <tfoot>
                         <th>#</th>
                         <th>Manufacture Name</th>
-                        <th>Model</th>
                         <th>Type</th>
                         <th>Serial Number</th>
                         <th>Location</th>
@@ -229,7 +190,7 @@
             </div>
         </div>
         <!--Transfer Confirm Modal-->
-    <div class="modal fade text-dark" id="transferConfirm">
+        <div class="modal fade text-dark" id="transferConfirm">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">

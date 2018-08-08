@@ -74,7 +74,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
+                        <!-- <tr>
                             <th scope="row">1</th>
                             <td>Dell</td>
                             <td>OPTIPLEX GX280</td>
@@ -86,98 +86,22 @@
                             <td>11/11/2018</td>
                             <td class="text-center px-0"><input class="" type="checkbox"></td>
                             <td class="text-center p-0"><i class="btn btn-success p-0 fas fa-exchange-alt" data-toggle="modal" data-target="#transferConfirm"></i></td>
-                        </tr>
+                        </tr> -->
+                        {% for inventory in inventorys %}
                         <tr>
-                            <th scope="row">2</th>
-                            <td>Dell</td>
-                            <td>Latitude D630</td>
-                            <td>Laptop</td>
-                            <td>8C90QD1</td>
-                            <td>Quadrant 3</td>
-                            <td>Ms. Jane Doe</td>
-                            <td>Not Working</td>
-                            <td>11/11/2018</td>
+                            <th scope="row">{{ inventory.iid }}</th>
+                            <td>{{ inventory.manufacture_name }}</td>
+                            <td></td>
+                            <td>{{ inventory.device_type }}</td>
+                            <td>{{ inventory.serial_number }}</td>
+                            <td>{{ inventory.location }}</td>
+                            <td>{{ inventory.proprietor }}</td>
+                            <td>{{ inventory.status }}</td>
+                            <td></td>
                             <td class="text-center px-0"><input class="" type="checkbox"></td>
-                            <td class="text-center p-0"><i class="btn btn-success p-0 fa fa-exchange-alt" data-toggle="modal" data-target="#transferConfirm"></i></td>
+                            <td class="text-center p-0"><i class="btn btn-success p-0 fas fa-exchange-alt" data-toggle="modal" data-target="#transferConfirm"></i></td>
                         </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>CISCO</td>
-                            <td>Secure Access Control Server</td>
-                            <td>Server</td>
-                            <td>OMNCWT520051</td>
-                            <td>Annex Disposal Room</td>
-                            <td>Null</td>
-                            <td>Disposed</td>
-                            <td>11/11/2018</td>
-                            <td class="text-center p-0"><input class="" type="checkbox"></td>
-                            <td class="text-center p-0"><i class="btn btn-success p-0 fa fa-exchange-alt" data-toggle="modal" data-target="#transferConfirm"></i></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">4</th>
-                            <td>CISCO</td>
-                            <td>Secure Access Control Server</td>
-                            <td>Server</td>
-                            <td>OMNCWT520051</td>
-                            <td>Annex Disposal Room</td>
-                            <td>Null</td>
-                            <td>Disposed</td>
-                            <td>11/11/2018</td>
-                            <td class="text-center p-0"><input class="" type="checkbox"></td>
-                            <td class="text-center p-0"><i class="btn btn-success p-0 fa fa-exchange-alt" data-toggle="modal" data-target="#transferConfirm"></i></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">5</th>
-                            <td>CISCO</td>
-                            <td>Secure Access Control Server</td>
-                            <td>Server</td>
-                            <td>OMNCWT520051</td>
-                            <td>Annex Disposal Room</td>
-                            <td>Null</td>
-                            <td>Disposed</td>
-                            <td>11/11/2018</td>
-                            <td class="text-center p-0"><input class="" type="checkbox"></td>
-                            <td class="text-center p-0"><i class="btn btn-success p-0 fa fa-exchange-alt" data-toggle="modal" data-target="#transferConfirm"></i></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">6</th>
-                            <td>CISCO</td>
-                            <td>Secure Access Control Server</td>
-                            <td>Server</td>
-                            <td>OMNCWT520051</td>
-                            <td>Annex Disposal Room</td>
-                            <td>Null</td>
-                            <td>Disposed</td>
-                            <td>11/11/2018</td>
-                            <td class="text-center p-0"><input class="" type="checkbox"></td>
-                            <td class="text-center p-0"><i class="btn btn-success p-0 fa fa-exchange-alt" data-toggle="modal" data-target="#transferConfirm"></i></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">7</th>
-                            <td>CISCO</td>
-                            <td>Secure Access Control Server</td>
-                            <td>Server</td>
-                            <td>OMNCWT520051</td>
-                            <td>Annex Disposal Room</td>
-                            <td>Null</td>
-                            <td>Disposed</td>
-                            <td>11/11/2018</td>
-                            <td class="text-center p-0"><input class="" type="checkbox"></td>
-                            <td class="text-center p-0"><i class="btn btn-success p-0 fa fa-exchange-alt" data-toggle="modal" data-target="#transferConfirm"></i></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">8</th>
-                            <td>CISCO</td>
-                            <td>Secure Access Control Server</td>
-                            <td>Server</td>
-                            <td>OMNCWT520051</td>
-                            <td>Annex Disposal Room</td>
-                            <td>Null</td>
-                            <td>Disposed</td>
-                            <td>11/11/2018</td>
-                            <td class="text-center p-0"><input class="" type="checkbox"></td>
-                            <td class="text-center p-0"><i class="btn btn-success p-0 fa fa-exchange-alt" data-toggle="modal" data-target="#transferConfirm"></i></td>
-                        </tr>
+                        {% endfor %}
                     </tbody>
                     <tfoot>
                         <th>#</th>
@@ -222,7 +146,7 @@
                             <th>Location</th>
                             <th>Proprietor</th>
                             <th>Status</th>
-                            <th>Date added</th>
+                            <th>Date transfered</th>
                             <th colspan="2">Select</th>
                         </tr>
                     </thead>
@@ -276,7 +200,7 @@
                         <th>Location</th>
                         <th>Proprietor</th>
                         <th>Status</th>
-                        <th>Date added</th>
+                        <th>Date transfered</th>
                         <th colspan="2" class="text-center p-0"><span class="btn btn-danger m-0" data-toggle="modal" data-target="#removeConfirm">Remove</span></th>
                     </tfoot>
                 </table>
