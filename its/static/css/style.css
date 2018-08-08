@@ -1,0 +1,67 @@
+
+
+body {
+  background-color: lightgray;
+  min-height: 660px; }
+
+.dark-overlay {
+  background-color: rgba(0, 0, 0, 0.7);
+  width: 100%;
+  min-height: 660px; }
+
+.login_btn {
+  background: #3842ad; }
+
+.navbar {
+  background-color: #007acc; }
+
+.menu-icon {
+  display: block;
+  color: white;
+  border: 1px solid white;
+  border-radius: 3px; }
+
+.navbar_brd_btm {
+  background-color: darkorange;
+  height: 2px; }
+
+.navbar-nav > li > a {
+  margin-left: 1rem;
+  color: white; }
+
+.navbar-nav > li > a:hover {
+  color: darkorange; }
+
+.navbar-nav > li > .dropdown-menu > a:hover {
+  background-color: darkorange; }
+
+.actions {
+  border-top: 2px solid #8289da; }
+
+header {
+  background-color: #3842ad; }
+
+.login_card {
+  background-color: #007acc;
+  opacity: 0.9; }
+
+.login_card .card-body {
+  opacity: none; }
+
+footer {
+  margin-top: 100px;
+  background-color: #3842ad; }
+
+footer p {
+  color: aqua; }
+
+.dashboard-container {
+  margin-top: 50px; }
+
+.options {
+  color: white;
+  background: #007acc; }
+
+.custom-card, .custom-card:hover {
+  text-decoration: none;
+  color: inherit; }

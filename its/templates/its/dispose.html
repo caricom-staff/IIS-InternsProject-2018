@@ -1,0 +1,376 @@
+{% extends 'its/main-template.html' %}
+
+{% block content %}
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="menu-item navbar-nav ml-auto">
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Welcome Admin</a>
+                        <div class="dropdown-menu">
+                            <a href="../profile" class="dropdown-item"><i class="fa fa-user-circle"></i> Profile</a>
+                            <a href="../settings" class="dropdown-item"><i class="fa fa-cog"></i> Settings</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../login" class="nav-link"><i class="fa fa-user-times"></i> Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="navbar_brd_btm"></div>
+
+    <header id="main-header" class="text-white">
+        <div class="container">
+            <div class="mx-2 row">
+                <div class="col-md-12">
+                    <h2><i class="fas fa-trash-alt"></i> Dispose items from the inventory__<i class="fas fa-people-carry"></i>__<i class="fas fa-trash-alt fa-xs"></i></i></h2>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container-fluid py-2 mb-4 bg-light actions">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 mr-auto">
+                    <a href="../" class="btn btn-light btn-block"><i class="fa fa-arrow-left"></i> Back to Dashboard</a>
+                </div>
+                <div class="col-md-3 col-sm-6 d-none d-sm-block">
+                    <a href="" class="btn btn-success btn-block"  data-toggle="modal" data-target="#disposeConfirm" data-dismiss="modal"><i class="fa fa-trash"></i> Dispose Items</a>
+                </div>
+                <div class="col-md-3 d-none col-sm-6 d-sm-block">
+                    <a href="../" class="btn btn-danger btn-block"><i class="fas fa-times"></i> Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid mt-5">
+        <div class="input-group input-group-lg">
+            <input type="text" class="form-control" placeholder="Search for an item..."> 
+            <div class="input-group-prepend">
+                <button class="btn btn-secondary px-4" type="submit">Search</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container-fluid mt-3">
+        <div class="card shadow">
+            <div class="card-header text-center"><h2>Inventory</h2></div>
+            <div class="container-fluid table-responsive">
+                <table id="example" class="table table-bordered table-sm table-hover bg-light table-striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Manufacture Name <i class="fa fa-sort" aria-hidden="true"></i></th>
+                            <th>Model</th>
+                            <th>Type</th>
+                            <th>Serial Number</th>
+                            <th>Location</th>
+                            <th>Proprietor</th>
+                            <th>Status</th>
+                            <th>Date added</th>
+                            <th colspan="2">Select</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>Dell</td>
+                            <td>OPTIPLEX GX280</td>
+                            <td>CPU</td>
+                            <td>8DPZN71</td>
+                            <td>Quadrant 4</td>
+                            <td>Mr. John Doe</td>
+                            <td>Active</td>
+                            <td>11/11/2018</td>
+                            <td class="text-center px-0"><input class="" type="checkbox"></td>
+                            <td class="text-center p-0"><i class="btn p-0 fas fa-trash" data-toggle="modal" data-target="#disposeConfirm" data-dismiss="modal"></i></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td>Dell</td>
+                            <td>Latitude D630</td>
+                            <td>Laptop</td>
+                            <td>8C90QD1</td>
+                            <td>Quadrant 3</td>
+                            <td>Ms. Jane Doe</td>
+                            <td>Not Working</td>
+                            <td>11/11/2018</td>
+                            <td class="text-center px-0"><input class="" type="checkbox"></td>
+                            <td class="text-center p-0"><i class="btn p-0 fa fa-trash" data-toggle="modal" data-target="#disposeConfirm" data-dismiss="modal"></i></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">3</th>
+                            <td>CISCO</td>
+                            <td>Secure Access Control Server</td>
+                            <td>Server</td>
+                            <td>OMNCWT520051</td>
+                            <td>Annex Disposal Room</td>
+                            <td>Null</td>
+                            <td>Disposed</td>
+                            <td>11/11/2018</td>
+                            <td class="text-center p-0"><input class="" type="checkbox"></td>
+                            <td class="text-center p-0"><i class="btn p-0 fa fa-trash" data-toggle="modal" data-target="#disposeConfirm" data-dismiss="modal"></i></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">4</th>
+                            <td>CISCO</td>
+                            <td>Secure Access Control Server</td>
+                            <td>Server</td>
+                            <td>OMNCWT520051</td>
+                            <td>Annex Disposal Room</td>
+                            <td>Null</td>
+                            <td>Disposed</td>
+                            <td>11/11/2018</td>
+                            <td class="text-center p-0"><input class="" type="checkbox"></td>
+                            <td class="text-center p-0"><i class="btn p-0 fa fa-trash" data-toggle="modal" data-target="#disposeConfirm" data-dismiss="modal"></i></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">5</th>
+                            <td>CISCO</td>
+                            <td>Secure Access Control Server</td>
+                            <td>Server</td>
+                            <td>OMNCWT520051</td>
+                            <td>Annex Disposal Room</td>
+                            <td>Null</td>
+                            <td>Disposed</td>
+                            <td>11/11/2018</td>
+                            <td class="text-center p-0"><input class="" type="checkbox"></td>
+                            <td class="text-center p-0"><i class="btn p-0 fa fa-trash" data-toggle="modal" data-target="#disposeConfirm" data-dismiss="modal"></i></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">6</th>
+                            <td>CISCO</td>
+                            <td>Secure Access Control Server</td>
+                            <td>Server</td>
+                            <td>OMNCWT520051</td>
+                            <td>Annex Disposal Room</td>
+                            <td>Null</td>
+                            <td>Disposed</td>
+                            <td>11/11/2018</td>
+                            <td class="text-center p-0"><input class="" type="checkbox"></td>
+                            <td class="text-center p-0"><i class="btn p-0 fa fa-trash" data-toggle="modal" data-target="#disposeConfirm" data-dismiss="modal"></i></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">7</th>
+                            <td>CISCO</td>
+                            <td>Secure Access Control Server</td>
+                            <td>Server</td>
+                            <td>OMNCWT520051</td>
+                            <td>Annex Disposal Room</td>
+                            <td>Null</td>
+                            <td>Disposed</td>
+                            <td>11/11/2018</td>
+                            <td class="text-center p-0"><input class="" type="checkbox"></td>
+                            <td class="text-center p-0"><i class="btn p-0 fa fa-trash" data-toggle="modal" data-target="#disposeConfirm" data-dismiss="modal"></i></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">8</th>
+                            <td>CISCO</td>
+                            <td>Secure Access Control Server</td>
+                            <td>Server</td>
+                            <td>OMNCWT520051</td>
+                            <td>Annex Disposal Room</td>
+                            <td>Null</td>
+                            <td>Disposed</td>
+                            <td>11/11/2018</td>
+                            <td class="text-center p-0"><input class="" type="checkbox"></td>
+                            <td class="text-center p-0"><i class="btn p-0 fa fa-trash" data-toggle="modal" data-target="#disposeConfirm" data-dismiss="modal"></i></td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <th>#</th>
+                        <th>Manufacture Name</th>
+                        <th>Model</th>
+                        <th>Type</th>
+                        <th>Serial Number</th>
+                        <th>Location</th>
+                        <th>Proprietor</th>
+                        <th>Status</th>
+                        <th>Date added</th>
+                        <th colspan="2" class="text-center p-0"><span class="btn btn-info m-0">Select <i class="fas fa-trash"></i></span></th>
+                    </tfoot>
+                </table>
+            </div>
+            <div class="card-footer">
+                <nav>
+                    <ul class="pagination justify-content-end">
+                        <li class="page-item disabled"><a href="#" class="page-link">Previous</a></li>
+                        <li class="page-item active"><a href="#" class="page-link">1</a></li>
+                        <li class="page-item"><a href="#" class="page-link">2</a></li>
+                        <li class="page-item"><a href="#" class="page-link">3</a></li>
+                        <li class="page-item"><a href="#" class="page-link">Next</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid mx-auto mt-5">
+        <div class="card shadow">
+            <div class="card-header text-center"><h4>Items selected for Disposal</h4></div>
+            <div class="container-fluid table-responsive">
+                <table class="table table-bordered table-sm table-hover bg-light table-striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Manufacture Name</th>
+                            <th>Model</th>
+                            <th>Type</th>
+                            <th>Serial Number</th>
+                            <th>Location</th>
+                            <th>Proprietor</th>
+                            <th>Status</th>
+                            <th>Date added</th>
+                            <th colspan="2">Select</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>Dell</td>
+                            <td>OPTIPLEX GX280</td>
+                            <td>CPU</td>
+                            <td>8DPZN71</td>
+                            <td>Quadrant 4</td>
+                            <td>Mr. John Doe</td>
+                            <td>Active</td>
+                            <td>11/11/2018</td>
+                            <td class="text-center px-0"><input class="" type="checkbox"></td>
+                            <td class="text-center p-0"><i class="btn p-0 fa fa-times" data-toggle="modal" data-target="#cancelConfirm" data-dismiss="modal"></i></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td>Dell</td>
+                            <td>Latitude D630</td>
+                            <td>Laptop</td>
+                            <td>8C90QD1</td>
+                            <td>Quadrant 3</td>
+                            <td>Ms. Jane Doe</td>
+                            <td>Not Working</td>
+                            <td>11/11/2018</td>
+                            <td class="text-center px-0"><input class="" type="checkbox"></td>
+                            <td class="text-center p-0"><i class="btn p-0 fa fa-times" data-toggle="modal" data-target="#cancelConfirm" data-dismiss="modal"></i></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">3</th>
+                            <td>CISCO</td>
+                            <td>Secure Access Control Server</td>
+                            <td>Server</td>
+                            <td>OMNCWT520051</td>
+                            <td>Annex Disposal Room</td>
+                            <td>Null</td>
+                            <td>Disposed</td>
+                            <td>11/11/2018</td>
+                            <td class="text-center p-0"><input class="" type="checkbox"></td>
+                            <td class="text-center p-0"><i class="btn p-0 fa fa-times" data-toggle="modal" data-target="#cancelConfirm" data-dismiss="modal"></i></td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <th>#</th>
+                        <th>Manufacture Name</th>
+                        <th>Model</th>
+                        <th>Type</th>
+                        <th>Serial Number</th>
+                        <th>Location</th>
+                        <th>Proprietor</th>
+                        <th>Status</th>
+                        <th>Date added</th>
+                        <th colspan="2" class="text-center p-0"><span class="btn btn-danger m-0"data-toggle="modal" data-target="#cancelConfirm" data-dismiss="modal">Cancel</span></th>
+                    </tfoot>
+                </table>
+            </div>
+            <div class="card-footer">
+                <div class="container">
+                <div class="row">
+                    <div class="col-md-3 col-sm-6">
+                        <a><span class="btn btn-success btn-block"  data-toggle="modal" data-target="#disposeConfirm" data-dismiss="modal"><i class="fa fa-trash"></i> Dispose items</span></a>
+                    </div>
+                    <div class="col-md-3 col-sm-6 mb-3">
+                        <a href="../"><span class="btn btn-danger btn-block"><i class="fa fa-times"></i> Cancel</span></a>
+                    </div>
+                    <nav class="col-sm-3 ml-auto">
+                        <ul class="pagination pagination-sm justify-content-end">
+                            <li class="page-item disabled"><a href="#" class="page-link">Previous</a></li>
+                            <li class="page-item active"><a href="#" class="page-link">1</a></li>
+                            <li class="page-item"><a href="#" class="page-link">2</a></li>
+                            <li class="page-item"><a href="#" class="page-link">3</a></li>
+                            <li class="page-item"><a href="#" class="page-link">Next</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Dispose Confirm Modal-->
+    <div class="modal fade text-dark" id="disposeConfirm">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="confirmModalTitle">Confirm Dispose</h5>
+                        <button class="close" data-dismiss="modal"><span>&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to dispose the item(s)?
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-success" data-toggle="modal" data-target="#dispose" data-dismiss="modal">Yes</button>
+                        <button class="btn btn-danger" data-dismiss="modal">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <!--Dispose Form Modal-->
+        <div class="modal fade text-dark" id="dispose">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title h1" id="confirmModalTitle">Dispose Items</h5>
+                        <button class="close" data-dismiss="modal"><span>&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="">
+                            <div class="form-group">
+                                <label for="reason" class="h4">Reason</label>
+                                <textarea name="reason" class="form-control" required></textarea>
+                                <small>Please give a reason for diposing the items.</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="Date" class="h4">Date</label>
+                                <div class="date">
+                                    <input type="date" class="form-control pull-right" required>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-success" data-dismiss="modal" data-target="#remove">Yes</button>
+                        <button class="btn btn-danger" data-dismiss="modal">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Confirm Cancel Modal-->
+        <div class="modal fade text-dark" id="cancelConfirm">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="confirmModalTitle">Confirm Cancel</h5>
+                        <button class="close" data-dismiss="modal"><span>&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to remove the item(s) from the disposal list?
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-success" data-toggle="modal" data-dismiss="modal">Yes</button>
+                        <button class="btn btn-danger" data-dismiss="modal">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+{% endblock %}
