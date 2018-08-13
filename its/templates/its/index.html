@@ -1,7 +1,10 @@
 {% extends 'its/main-template.html' %}
-
 {% block content %}
-
+    <style>
+        body{
+            background-color: white;
+        }
+    </style>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="menu-item navbar-nav ml-auto">
                         <li class="nav-item dropdown">
@@ -36,7 +39,7 @@
                 <div class="row">
                     <div class="col-md-4 col-sm-6 mt-4">
                         <a href="add" class="custom-card">
-                            <div class="options card shadow">
+                            <div class="options card shadow pt-2">
                                 <span class=""><i class="display-2 fa fa-plus-circle"></i></span>
                                 <h2>Add</h2>
                             </div>
@@ -44,7 +47,7 @@
                     </div>
                     <div class="col-md-4 col-sm-6 mt-4">
                         <a href="remove" class="custom-card">
-                            <div class="options card shadow">
+                            <div class="options card shadow pt-2">
                                 <span><i class="display-2 fa fa-minus-circle"></i></span>
                                 <h2>Remove</h2>
                             </div>
@@ -52,7 +55,7 @@
                     </div>
                     <div class="col-md-4 col-sm-6 mt-4">
                         <a href="" class="custom-card" data-toggle="modal" data-target="#locate" data-dismiss="modal">
-                            <div class="options card shadow">
+                            <div class="options card shadow pt-2">
                                 <span><i class="display-2 fa fa-compass"></i></span>
                                 <h2>Locate</h2>
                             </div>
@@ -60,7 +63,7 @@
                     </div>
                     <div class="col-md-4 col-sm-6 mt-4">
                         <a href="transfer" class="custom-card">
-                            <div class="options card shadow">
+                            <div class="options card shadow pt-2">
                                 <span><i class="display-2 fas fa-exchange-alt"></i></span>
                                 <h2>Transfer</h2>
                             </div>
@@ -68,7 +71,7 @@
                     </div>
                     <div class="col-md-4 col-sm-6 mt-4">
                         <a href="dispose" class="custom-card">
-                            <div class="options card shadow">
+                            <div class="options card shadow pt-2">
                                 <span><i class="display-2 fa fa-trash-alt"></i></span>
                                 <h2>Dispose</h2>
                             </div>
@@ -76,7 +79,7 @@
                     </div>
                     <div class="col-md-4 col-sm-6 mt-4">
                         <a href="inventory" class="custom-card">
-                            <div class="options card shadow">
+                            <div class="options card shadow pt-2">
                                 <span><i class="display-2 fa fa-database"></i></span>
                                 <h2>Inventory</h2>
                             </div>
@@ -99,12 +102,12 @@
                     <h2>Locate an item...</h2><i class="fa fa-compass fa-2x fa-spin"></i>
                 </div>
                 <div class="modal-body">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search for an item..."> 
+                    <form class="input-group" type="get" action="/locate/">
+                        <input type="text" class="form-control" name="search_box" id="search_box" placeholder="Search for an item..."> 
                         <div class="input-group-prepend">
-                            <button class="btn btn-secondary px-4" type="submit">Search <i class="fas fa-search"></i></button>
+                            <button class="btn btn-secondary px-4" type="submit" id="search_submit">Search <i class="fas fa-search"></i></button>
                         </div>
-                    </div>
+                    </form>
                 </div>
                 <div class="modal-footer">
 

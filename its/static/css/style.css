@@ -1,5 +1,4 @@
 
-
 body {
   background-color: lightgray;
   min-height: 660px; }
@@ -14,12 +13,6 @@ body {
 
 .navbar {
   background-color: #007acc; }
-
-.menu-icon {
-  display: block;
-  color: white;
-  border: 1px solid white;
-  border-radius: 3px; }
 
 .navbar_brd_btm {
   background-color: darkorange;

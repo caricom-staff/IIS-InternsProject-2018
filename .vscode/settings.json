@@ -1,0 +1,4 @@
+{
+    "python.pythonPath": "${workspaceFolder}\\itsenv\\Scripts\\python.exe",
+    "python.linting.pylintEnabled": false
+}

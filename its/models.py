@@ -29,6 +29,7 @@ class Inventory(models.Model):
     )
     iid = models.AutoField(primary_key=True)
     manufacture_name = models.CharField(max_length=20)
+    model_name = models.CharField(max_length=20, null=True, blank=True)
     device_type = models.CharField(max_length=20)
     serial_number = models.CharField(max_length=30, unique=True)
     location = models.CharField(max_length=120)
