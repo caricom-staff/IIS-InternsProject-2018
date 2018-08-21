@@ -11,7 +11,7 @@
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a href="../" class="nav-link"><i class="fa fa-user-times"></i> Logout</a>
+                        <a href="{% url 'login' %}" class="nav-link"><i class="fa fa-user-times"></i> Logout</a>
                     </li>
                 </ul>
             </div>
@@ -43,6 +43,11 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="mx-3 mt-3 alert alert-info alert-dismissable fade show {{display1}}">
+        <button class="close" data-dismiss="alert" type="button"><span>&times;</span></button>
+        <strong>Successful! </strong>The item was added to the inventory.
     </div>
 
     <div class="container">
@@ -78,13 +83,13 @@
                                 <label for="typeSelect"> Type </label>
                                 <select name="device_type" class="form-control" id="typeSelect" required>
                                     <option value="">Choose type...</option>
-                                    <option value="1">System Unit</option>
-                                    <option value="2">Printer</option>
-                                    <option value="3">Monitor</option>
-                                    <option value="4">Keyboard</option>
-                                    <option value="5">Mouse</option>
-                                    <option value="6">Laptop</option>
-                                    <option value="7">Server</option>
+                                    <option value="System Unit">System Unit</option>
+                                    <option value="Printer">Printer</option>
+                                    <option value="Monitor">Monitor</option>
+                                    <option value="Keyboard">Keyboard</option>
+                                    <option value="Mouse">Mouse</option>
+                                    <option value="Laptop">Laptop</option>
+                                    <option value="Server">Server</option>
                                 </select>
                                 <div class="valid-feedback">
                                     Looks okay!
@@ -113,7 +118,7 @@
                                     Please enter a Location!
                                 </div>
                             </div>
-                            <div class="form-group col-md-12">
+                            <div class="form-group col-md-6">
                                 <label for="Proprietor">Proprietor</label>
                                 <input name="proprietor" type="text" class="form-control" required>
                                 <div class="valid-feedback">
@@ -130,7 +135,6 @@
                                     <option value="Active">Active</option>
                                     <option value="Inactive">Inactive</option>
                                     <option value="Not Working">Not Working</option>
-                                    <option value="Disposed">Disposed</option>
                                 </select>
                                 <div class="invalid-feedback">
                                     Please select a Status!
@@ -140,8 +144,8 @@
                                 </div>
                             </div>
                             <!-- <div class="form-group col-md-6">
-                                <label for="Date">Date: </label>
-                                <input name="added_date" type="date" class="form-control">
+                                <label for="date">Date: </label>
+                                <input type="text" class="form-control" id="datetime" name="date">
                             </div> -->
                         </form>
                         <div class="row mt-3 mx-auto">
@@ -193,39 +197,19 @@
                             <th>Location</th>
                             <th>Proprietor</th>
                             <th>Status</th>
-                            <th>Date added</th>
-                            <th colspan="2">Select</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <!-- <tr>
-                            <th scope="row">1</th>
-                            <td>Dell</td>
-                            <td>OPTIPLEX GX280</td>
-                            <td>CPU</td>
-                            <td>8DPZN71</td>
-                            <td>Quadrant 4</td>
-                            <td>Mr. John Doe</td>
-                            <td>Active</td>
-                            <td>11/11/2018</td>
-                            <td class="text-center px-0"><input class="" type="checkbox"></td>
-                            <td class="text-center p-0"><i class="btn p-0 fas fa-times"></i></td>
-                        </tr> -->
-                        
+                    <tbody id="myTable">                        
                         <tr>
-                            <th scope="row">1</th>
-                            <td>{{ manufacture_name }}</td>
-                            <td>{{ model_name }}</td>
-                            <td>{{ device_type }}</td>
-                            <td>{{ serial_number }}</td>
-                            <td>{{ location }}</td>
-                            <td>{{ proprietor }}</td>
-                            <td>{{ status }}</td>
-                            <td>{{ added_date }}</td>
-                            <td class="text-center px-0"><input class="" type="checkbox"></td>
-                            <td class="text-center p-0"><i class="btn p-0 fas fa-times"></i></td>
+                            <th scope="row"></th>
+                            <td>{{ adddata.manufacture_name }}</td>
+                            <td>{{ adddata.model_name }}</td>
+                            <td>{{ adddata.device_type }}</td>
+                            <td>{{ adddata.serial_number }}</td>
+                            <td>{{ adddata.location }}</td>
+                            <td>{{ adddata.proprietor }}</td>
+                            <td>{{ adddata.status }}</td>
                         </tr>
-
                     </tbody>
                     <tfoot>
                         <th>#</th>
@@ -236,8 +220,6 @@
                         <th>Location</th>
                         <th>Proprietor</th>
                         <th>Status</th>
-                        <th>Date added</th>
-                        <th colspan="2" class="text-center p-0"><span class="btn btn-danger m-0" data-toggle="modal" data-target="#removeConfirm">Remove</span></th>
                     </tfoot>
                 </table>
             </div>
@@ -273,22 +255,4 @@
             </div>
         </div>
     </div>
-    <script>
-        (function() {
-            'use strict';
-            window.addEventListener('load', function() {
-            var forms = document.getElementsByClassName('needs-validation');
-            var validation = Array.prototype.filter.call(forms, function(form) {
-                form.addEventListener('submit', function(event) {
-                if (form.checkValidity() === false) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                    $('#addConfirm').modal('hide');
-                }
-                form.classList.add('was-validated');
-                }, false);
-            });
-            }, false);
-        })();
-    </script>
 {% endblock %}

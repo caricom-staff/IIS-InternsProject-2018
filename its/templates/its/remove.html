@@ -11,7 +11,7 @@
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a href="../login" class="nav-link"><i class="fa fa-user-times"></i> Logout</a>
+                        <a href="login" class="nav-link"><i class="fa fa-user-times"></i> Logout</a>
                     </li>
                 </ul>
             </div>
@@ -40,18 +40,28 @@
     </div>
 
     <div class="container-fluid mt-5">
-        <div class="input-group input-group-lg">
-            <input type="text" class="form-control" placeholder="Search for an item..."> 
+        <form action="/remove" method="GET" class="input-group input-group-lg">
+            <input type="text" class="form-control" name="search" id="search" placeholder="Search for an item..."> 
             <div class="input-group-prepend">
-                <button class="btn btn-secondary px-4" type="submit">Search</button>
+                <button class="btn btn-secondary px-4 form-control" id="search_submit" type="submit">Search</button>
             </div>
-        </div>
+        </form>
+    </div>
+
+    <div class="mx-3 mt-3 alert alert-info alert-dismissable fade show {{display}}">
+        <button class="close" data-dismiss="alert" type="button"><span>&times;</span></button>
+        {{ result }}<strong> Results Found </strong>
+    </div>
+
+    <div class="mx-3 mt-3 alert alert-info alert-dismissable fade show {{display1}}">
+        <button class="close" data-dismiss="alert" type="button"><span>&times;</span></button>
+        <strong>Successful! </strong>The item(s) were removed.
     </div>
 
     <div class="container-fluid mt-3">
         <div class="card shadow">
             <div class="card-header text-center"><h2>Inventory</h2></div>
-            <form action="/remove/" method="POST">
+            <form action="/remove/" method="POST" id="removeform">
                 <div class="container-fluid table-responsive">
                     <table id="example" class="table table-bordered table-sm table-hover bg-light table-striped">
                         <thead>
@@ -61,40 +71,19 @@
                                 <th>Model</th>
                                 <th>Type</th>
                                 <th>Serial Number</th>
-                                <th>Location</th>
-                                <th>Proprietor</th>
-                                <th>Status</th>
-                                <th>Date added</th>
                                 <th colspan="2">Select</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <!-- <tr>
-                                <th scope="row">1</th>
-                                <td>Dell</td>
-                                <td>OPTIPLEX GX280</td>
-                                <td>CPU</td>
-                                <td>8DPZN71</td>
-                                <td>Quadrant 4</td>
-                                <td>Mr. John Doe</td>
-                                <td>Active</td>
-                                <td>11/11/2018</td>
-                                <td class="text-center px-0"><input class="" type="checkbox"></td>
-                                <td class="text-center p-0"><i class="btn p-0 fas fa-times"></i></td>
-                            </tr> -->
+                        <tbody id="myTable">
                             {% for inventory in inventorys %}
                             <tr>
-                                <th scope="row">{{ inventory.iid }}</th>
+                                <th scope="row" id="num"></th>
                                 <td>{{ inventory.manufacture_name }}</td>
                                 <td>{{ inventory.model_name }}</td>
                                 <td>{{ inventory.device_type }}</td>
                                 <td>{{ inventory.serial_number }}</td>
-                                <td>{{ inventory.location }}</td>
-                                <td>{{ inventory.proprietor }}</td>
-                                <td>{{ inventory.status }}</td>
-                                <td></td>
-                                <td class="text-center px-0"><input class="" type="checkbox"></td>
-                                <td class="text-center p-0"><i class="btn p-0 fas fa-times" data-toggle="modal" data-target="#removeConfirm"></i></td>
+                                <td class="text-center px-0"><input value="{{ inventory.iid }}" onclick="set(this)" type="checkbox"></td>
+                                <td class="text-center p-0"><button onclick="getid(this)" data-toggle="modal" data-target="#removeConfirm"  value="{{ inventory.iid }}"><i class="btn p-0 fas fa-times"></i></button></td>
                             </tr>
                             {% endfor %}
                         </tbody>
@@ -104,11 +93,7 @@
                             <th>Model</th>
                             <th>Type</th>
                             <th>Serial Number</th>
-                            <th>Location</th>
-                            <th>Proprietor</th>
-                            <th>Status</th>
-                            <th>Date added</th>
-                            <th colspan="2" class="text-center p-0"><span class="btn btn-danger m-0" data-toggle="modal" data-target="#removeConfirm">Remove</span></th>
+                            <th colspan="2" class="p-0"><button class="btn btn-danger" name="remove_all" data-target="#removeConfirm" data-toggle="modal">Remove</button></th>
                         </tfoot>
                     </table>
                     <!--Remove Form Modal-->
@@ -120,22 +105,21 @@
                                     <button class="close" data-dismiss="modal"><span>&times;</span></button>
                                 </div>
                                 <div class="modal-body">
-                                    <form action="">
-                                        <div class="form-group">
+                                    <form class="row needs-validation" id="removeformmodal" novalidate>
+                                        <div class="form-group col-12 mb-5">
                                             <label for="reason" class="h4">Reason</label>
-                                            <textarea name="reason" class="form-control" required></textarea>
-                                            <small>Please give a reason for removing items.</small>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="Date" class="h4">Date</label>
-                                            <div class="date">
-                                                <input type="date" class="form-control pull-right" required>
+                                            <textarea name="remarks" type="text" id="reason" class="form-control h-100" required></textarea>
+                                            <div class="valid-feedback">
+                                                Looks okay!
+                                            </div>
+                                            <div class="invalid-feedback">
+                                                Please give a reason for removing items.
                                             </div>
                                         </div>
                                     </form>
                                 </div>
                                 <div class="modal-footer">
-                                    <button class="btn btn-success" data-dismiss="modal" data-target="#remove">Yes</button>
+                                    <button class="btn btn-success" id="removeSubmit" type="submit" form="removeform">Yes</button>
                                     <button class="btn btn-danger" data-dismiss="modal">No</button>
                                 </div>
                             </div>
@@ -144,20 +128,52 @@
                 </div>
             </form>
             <div class="card-footer">
+                {% if inventorys.has_other_pages %}
                 <nav>
                     <ul class="pagination justify-content-end">
-                        <li class="page-item disabled"><a href="#" class="page-link">Previous</a></li>
-                        <li class="page-item active"><a href="#" class="page-link">1</a></li>
-                        <li class="page-item"><a href="#" class="page-link">2</a></li>
-                        <li class="page-item"><a href="#" class="page-link">3</a></li>
-                        <li class="page-item"><a href="#" class="page-link">Next</a></li>
+                        {% if inventorys.has_previous %}
+                            <li class="page-item"><a href="?page={{ inventorys.previous_page_number }}" class="page-link">Previous</a></li>
+                        {% else %}
+                            <li class="page-item disabled"><a href="#" class="page-link">Previous</a></li>
+                        {% endif %}
+                        {% for page_num in inventorys.paginator.page_range %}
+                            {% if inventorys.number == page_num %}
+                                <li class="page-item active"><a href="#" class="page-link">{{ page_num }}<span class="sr-only">(current)</span></a></li>
+                            {% else %}
+                                <li class="page-item"><a href="?page={{ page_num }}" class="page-link">{{ page_num }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if inventorys.has_next %}
+                            <li class="page-item"><a href="?page={{ inventorys.next_page_number }}" class="page-link">Next</a></li>
+                        {% else %}
+                            <li class="page-item disabled"><a href="#" class="page-link">Next</a></li>
+                        {% endif %}
                     </ul>
                 </nav>
+                {% endif %}
             </div>
         </div>
     </div>
-
-    <div class="container-fluid mx-auto mt-5">
+    <!--Remove Confirm Modal-->
+    <div class="modal fade text-dark" id="removeConfirm">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmModalTitle">Confirm Remove</h5>
+                    <button class="close" data-dismiss="modal"><span>&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to remove the item(s)?
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success" data-dismiss="modal" data-toggle="modal" data-target="#remove">Yes</button>
+                    <button class="btn btn-danger" data-dismiss="modal">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="container-fluid mx-auto mt-5">
         <div class="card shadow">
             <div class="card-header text-center"><h4>Removed Items</h4></div>
             <div class="container-fluid table-responsive">
@@ -243,24 +259,14 @@
                 </nav>
             </div>
         </div>
-    </div>
+    </div> -->
 
-    <!--Remove Confirm Modal-->
-    <div class="modal fade text-dark" id="removeConfirm">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="confirmModalTitle">Confirm Remove</h5>
-                    <button class="close" data-dismiss="modal"><span>&times;</span></button>
-                </div>
-                <div class="modal-body">
-                    Are you sure you want to remove the item(s)?
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-success" data-toggle="modal" data-target="#remove" data-dismiss="modal">Yes</button>
-                    <button class="btn btn-danger" data-dismiss="modal">No</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    <script>
+        function getid(element) {
+                var x = element.value;
+                var y = 'item_row';
+                document.getElementById("removeSubmit").name = y;
+                document.getElementById("removeSubmit").value = x;
+        }
+    </script>
 {% endblock %}

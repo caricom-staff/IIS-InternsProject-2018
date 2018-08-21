@@ -38,9 +38,17 @@
             <div class="col-md-8 text-center justify-content-center">
                 <div class="row">
                     <div class="col-md-4 col-sm-6 mt-4">
+                        <a href="inventory" class="custom-card">
+                            <div class="options card shadow pt-2">
+                                <span><i class="display-2 fa fa-database"></i></span>
+                                <h2>Inventory</h2>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-4 col-sm-6 mt-4">
                         <a href="add" class="custom-card">
                             <div class="options card shadow pt-2">
-                                <span class=""><i class="display-2 fa fa-plus-circle"></i></span>
+                                <span><i class="display-2 fa fa-plus-circle"></i></span>
                                 <h2>Add</h2>
                             </div>
                         </a>
@@ -50,14 +58,6 @@
                             <div class="options card shadow pt-2">
                                 <span><i class="display-2 fa fa-minus-circle"></i></span>
                                 <h2>Remove</h2>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-md-4 col-sm-6 mt-4">
-                        <a href="" class="custom-card" data-toggle="modal" data-target="#locate" data-dismiss="modal">
-                            <div class="options card shadow pt-2">
-                                <span><i class="display-2 fa fa-compass"></i></span>
-                                <h2>Locate</h2>
                             </div>
                         </a>
                     </div>
@@ -78,10 +78,10 @@
                         </a>
                     </div>
                     <div class="col-md-4 col-sm-6 mt-4">
-                        <a href="inventory" class="custom-card">
+                        <a href="update" class="custom-card">
                             <div class="options card shadow pt-2">
-                                <span><i class="display-2 fa fa-database"></i></span>
-                                <h2>Inventory</h2>
+                                <span><i class="display-2 far fa-edit ml-4"></i></span>
+                                <h2>Update</h2>
                             </div>
                         </a>
                     </div>
@@ -94,7 +94,7 @@
         </div>
     </div>
     <div class="container"><br></div>
-    <!--Locate Modal-->
+    <!-- Locate Modal
     <div class="modal fade text-dark" id="locate">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
@@ -114,5 +114,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 {% endblock %}

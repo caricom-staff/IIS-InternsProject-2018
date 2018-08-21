@@ -37,6 +37,37 @@
     <script src="{% static 'js/popper.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/all.js' %}"></script>
+
+    <script>
+            (function() {
+                'use strict';
+                window.addEventListener('load', function() {
+                var forms = document.getElementsByClassName('needs-validation');
+                var validation = Array.prototype.filter.call(forms, function(form) {
+                    form.addEventListener('submit', function(event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        $('#addConfirm').modal('hide');
+                    }
+                    form.classList.add('was-validated');
+                    }, false);
+                });
+                }, false);
+            })();
+            
+            function set(element) {
+                element.classList.toggle('selected');
+                if (element.classList.contains('selected'))
+                    element.name = 'item_selected';
+                else
+                    element.name = '';
+            }
+
+            $('#myTable tr').each(function(idx){
+                $(this).children().first().html(idx + 1);
+            });
+        </script>
     <!-- <script src="js/jquery.min.js"></script>
     <script src="js/popper.min.js"></script>
     <script src="js/bootstrap.min.js"></script>

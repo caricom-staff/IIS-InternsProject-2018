@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils import timezone
-
+import uuid
 
 class Staff(models.Model):
     POSITION_CHOICES = (
@@ -21,72 +21,42 @@ class Staff(models.Model):
         return '%s %s'%(self.first_name, self.last_name)
 
 class Inventory(models.Model):
+    iid = models.AutoField(primary_key=True)
+    manufacture_name = models.CharField(max_length=20)
+    model_name = models.CharField(max_length=20, null=True, blank=True)
+    device_type = models.CharField(max_length=20)
+    serial_number = models.CharField(max_length=30, unique=True)
+
+    def __str__(self):
+        return '%s %s %s %s %s'%(self.iid, self.manufacture_name, self.model_name, self.device_type, self.serial_number)
+
+class Transactions(models.Model):
+
+    class Meta:
+        ordering = ['-date']
+
     STATUS_CHOICES = (
         ('Active', 'ACTIVE'),
         ('Inactive', 'INACTIVE'),
         ('Not Working', 'NOT WORKING'),
         ('Disposed', 'DISPOSED'),
     )
-    iid = models.AutoField(primary_key=True)
-    manufacture_name = models.CharField(max_length=20)
-    model_name = models.CharField(max_length=20, null=True, blank=True)
-    device_type = models.CharField(max_length=20)
-    serial_number = models.CharField(max_length=30, unique=True)
+    OPERATION_CHOICES = (
+        ('Add','ADD'),
+        ('Transfer','TRANSFER'),
+        ('Remove','REMOVE'),
+        ('Change Status','CHANGE STATUS'),
+        ('Disposed', 'DISPOSED'),
+    )
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4)
+    sid = models.ForeignKey(Staff, on_delete=models.SET_NULL, null=True)
+    iid = models.ForeignKey(Inventory, on_delete=models.SET_NULL, null=True)
+    date = models.DateTimeField(default=timezone.now, blank=True)
+    operation = models.CharField(max_length=14, choices=OPERATION_CHOICES)
+    remarks = models.TextField(null=True, blank=True)
     location = models.CharField(max_length=120)
     proprietor = models.CharField(max_length=30)
     status = models.CharField(max_length=12, choices=STATUS_CHOICES)
 
     def __str__(self):
-        return '%s %s %s %s %s %s %s'%(self.iid, self.manufacture_name, self.device_type, self.serial_number, self.location, self.proprietor, self.status)
-
-class Add(models.Model):
-    aid = models.AutoField(primary_key=True)
-    sid = models.ForeignKey(Staff, on_delete=models.CASCADE)
-    iid = models.ForeignKey(Inventory, on_delete=models.CASCADE)
-    added_date = models.DateTimeField(
-        default=timezone.now)
-
-    def additem(self):
-        self.save()
-
-    def __str__(self):
-        return '%s %s %s %s'%(self.aid, self.sid, self.iid, self.added_date)
-
-class Remove(models.Model):
-    rid = models.AutoField(primary_key=True)
-    sid = models.ForeignKey(Staff, on_delete=models.CASCADE)
-    iid = models.ForeignKey(Inventory, on_delete=models.CASCADE)
-    removed_date = models.DateTimeField(default=timezone.now)
-    reason = models.CharField(max_length=200)
-
-    def removeitem(self):
-        self.save()
-
-    def __str__(self):
-        return '%s %s %s %s'%(self.rid, self.sid, self.iid, self.removed_date)
-
-class Transfer(models.Model):
-    tid = models.AutoField(primary_key=True)
-    sid = models.ForeignKey(Staff, on_delete=models.CASCADE)
-    iid = models.ForeignKey(Inventory, on_delete=models.CASCADE)
-    to = models.CharField(max_length=120)
-    transfered_date = models.DateTimeField(default=timezone.now)
-
-    def transferitem(self):
-        self.save()
-
-    def __str__(self):
-        return '%s %s %s %s %s'%(self.tid, self.sid, self.iid, self.to, self.transfered_date)
-
-class Dispose(models.Model):
-    did = models.AutoField(primary_key=True)
-    sid = models.ForeignKey(Staff, on_delete=models.CASCADE)
-    iid = models.ForeignKey(Inventory, on_delete=models.CASCADE)
-    disposed_date = models.DateTimeField(default=timezone.now)
-    reason = models.CharField(max_length=200)
-    
-    def disposeitem(self):
-        self.save()
-
-    def __str__(self):
-        return '%s %s %s %s'%(self.did, self.sid, self.iid, self.disposed_date)
+        return '%s %s %s %s'%(self.id, self.sid, self.iid, self.operation)
