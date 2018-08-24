@@ -23,7 +23,7 @@
         <div class="container">
             <div class="mx-2 row">
                 <div class="col-12">
-                    <h2><i class="fas fa-edit mr-2"></i> Update _____ <i class="fas fa-pen"></i></h2>
+                    <a href="/update" id="a"><h2><i class="fas fa-edit mr-2"></i> Update _____ <i class="fas fa-pen"></i></h2></a>
                 </div>
             </div>
         </div>
@@ -46,7 +46,7 @@
     </div>
 
     <div class="container-fluid mt-5">
-        <form action="/inventory" method="GET" class="input-group input-group-lg">
+        <form action="/update" method="GET" class="input-group input-group-lg">
             <input type="text" class="form-control" name="search" id="search" placeholder="Search for an item..."> 
             <div class="input-group-prepend">
                 <button class="btn btn-secondary px-4 form-control" id="search_submit" type="submit">Search</button>
@@ -58,11 +58,16 @@
         <button class="close" data-dismiss="alert" type="button"><span>&times;</span></button>
         {{ result }}<strong> Results Found </strong>
     </div>
+
+    <div class="mx-3 mt-3 alert alert-success alert-dismissable fade show {{display1}}">
+        <button class="close" data-dismiss="alert" type="button"><span>&times;</span></button>
+        <strong>Successful! </strong>The item(s) were updated to {{ status }}.
+    </div>
     
     <div class="container-fluid mt-3">
         <div class="card shadow">
             <div class="card-header text-center"><h2>Inventory</h2></div>
-            <form action="/update/" method="POST" id="updateform"></form>
+            <form action="/update/" method="POST" id="updateform">
                 <div class="container-fluid table-responsive">
                     <table id="example" class="table table-bordered table-sm table-hover bg-light table-striped">
                         <thead>
@@ -72,6 +77,7 @@
                                 <th>Model</th>
                                 <th>Type</th>
                                 <th>Serial Number</th>
+                                <th>Status</th>
                                 <th colspan="2" class="text-center">Select</th>
                             </tr>
                         </thead>
@@ -79,12 +85,13 @@
                             {% for inventory in inventorys %}
                             <tr>
                                 <th scope="row"></th>
-                                <td>{{ inventory.manufacture_name }}</td>
-                                <td>{{ inventory.model_name }}</td>
-                                <td>{{ inventory.device_type }}</td>
-                                <td>{{ inventory.serial_number }}</td>
-                                <td class="text-center p-0"><input value="{{ inventory.iid }}" onclick="set(this)" type="checkbox"></td>
-                                <td class="text-center p-0"><button onclick="getid(this)" data-toggle="modal" data-target="#updateConfirm"  value="{{ inventory.iid }}"><i class="btn p-0 fas fa-edit"></i></button></td>
+                                <td>{{ inventory.iid.manufacture_name }}</td>
+                                <td>{{ inventory.iid.model_name }}</td>
+                                <td>{{ inventory.iid.device_type }}</td>
+                                <td>{{ inventory.iid.serial_number }}</td>
+                                <td>{{ inventory.status }}</td>
+                                <td class="text-center p-0"><input value="{{ inventory.iid.iid }}" onclick="set(this)" type="checkbox"></td>
+                                <td class="text-center p-0"><button onclick="getid(this)" data-toggle="modal" data-target="#updateConfirm"  value="{{ inventory.iid.iid }}"><i class="btn p-0 fas fa-edit"></i></button></td>
                             </tr>
                             {% endfor %}
                         </tbody>
@@ -94,6 +101,7 @@
                             <th>Model</th>
                             <th>Type</th>
                             <th>Serial Number</th>
+                            <th>Status</th>
                             <th class="text-center p-0"><span class="btn btn-dark m-0">Select</span></th>
                         </tfoot>
                     </table>
@@ -106,7 +114,7 @@
                                     <button class="close" data-dismiss="modal"><span>&times;</span></button>
                                 </div>
                                 <div class="modal-body">
-                                    <form class="row needs-validation" action="/update/" method="POST" id="updateform" novalidate>
+                                    <form class="row needs-validation" id="updateformmodal" novalidate>
                                         <div class="form-group">
                                             <label for="status" class="">Status</label>
                                             <select name="status" class="form-control" id="status" required>
@@ -115,12 +123,8 @@
                                                 <option value="Inactive">Inactive</option>
                                                 <option value="Not Working">Not Working</option>
                                             </select>
-                                            <div class="invalid-feedback">
-                                                Please select a Status!
-                                            </div>
-                                            <div class="valid-feedback">
-                                                Looks okay!
-                                            </div>
+                                            <div class="invalid-feedback">Please select a Status!</div>
+                                            <div class="valid-feedback">Looks okay!</div>
                                         </div>
                                         <div class="form-group">
                                             <label for="reason" class="h4">Reason</label>
@@ -131,7 +135,7 @@
                                     </form>
                                 </div>
                                 <div class="modal-footer">
-                                    <button class="btn btn-success" data-dismiss="modal">Yes</button>
+                                    <button class="btn btn-success" type="submit" form="updateform" id="updateSubmit">Yes</button>
                                     <button class="btn btn-danger" data-dismiss="modal">No</button>
                                 </div>
                             </div>
@@ -142,7 +146,7 @@
             <div class="card-footer">
                 <div class="row">
                     <div class="col-md-3 col-sm-6">
-                        <a><span class="btn btn-success btn-block"  data-toggle="modal" data-target="#disposeConfirm" data-dismiss="modal"><i class="fa fa-edit"></i> Update items</span></a>
+                        <a><span class="btn btn-success btn-block"  data-toggle="modal" data-target="#updateConfirm" data-dismiss="modal"><i class="fa fa-edit"></i> Update items</span></a>
                     </div>
                     <div class="col-md-3 col-sm-6 mb-3">
                         <a href="../"><span class="btn btn-danger btn-block"><i class="fa fa-times"></i> Cancel</span></a>
@@ -212,5 +216,12 @@
             });
             }, false);
         })();
+
+        function getid(element) {
+            var x = element.value;
+            var y = 'item_row';
+            document.getElementById("updateSubmit").name = y;
+            document.getElementById("updateSubmit").value = x;
+        }
     </script>
 {% endblock %}

@@ -23,7 +23,7 @@
         <div class="container">
             <div class="mx-2 row">
                 <div class="col">
-                    <h2><i class="fa fa-minus"></i> Remove items from the inventory <i class="fa fa-eraser"></i></h2>
+                    <a href="/remove" id="a"><h2><i class="fa fa-minus"></i> Remove items from the inventory <i class="fa fa-eraser"></i></h2></a>
                 </div>
             </div>
         </div>
@@ -53,7 +53,7 @@
         {{ result }}<strong> Results Found </strong>
     </div>
 
-    <div class="mx-3 mt-3 alert alert-info alert-dismissable fade show {{display1}}">
+    <div class="mx-3 mt-3 alert alert-success alert-dismissable fade show {{display1}}">
         <button class="close" data-dismiss="alert" type="button"><span>&times;</span></button>
         <strong>Successful! </strong>The item(s) were removed.
     </div>
@@ -71,19 +71,21 @@
                                 <th>Model</th>
                                 <th>Type</th>
                                 <th>Serial Number</th>
+                                <th>Status</th>
                                 <th colspan="2">Select</th>
                             </tr>
                         </thead>
                         <tbody id="myTable">
                             {% for inventory in inventorys %}
                             <tr>
-                                <th scope="row" id="num"></th>
-                                <td>{{ inventory.manufacture_name }}</td>
-                                <td>{{ inventory.model_name }}</td>
-                                <td>{{ inventory.device_type }}</td>
-                                <td>{{ inventory.serial_number }}</td>
-                                <td class="text-center px-0"><input value="{{ inventory.iid }}" onclick="set(this)" type="checkbox"></td>
-                                <td class="text-center p-0"><button onclick="getid(this)" data-toggle="modal" data-target="#removeConfirm"  value="{{ inventory.iid }}"><i class="btn p-0 fas fa-times"></i></button></td>
+                                <th scope="row"></th>
+                                <td>{{ inventory.iid.manufacture_name }}</td>
+                                <td>{{ inventory.iid.model_name }}</td>
+                                <td>{{ inventory.iid.device_type }}</td>
+                                <td>{{ inventory.iid.serial_number }}</td>
+                                <td>{{ inventory.status }}</td>
+                                <td class="text-center px-0"><input value="{{ inventory.iid.iid }}" onclick="set(this)" type="checkbox"></td>
+                                <td class="text-center p-0"><button onclick="getid(this)" data-toggle="modal" data-target="#removeConfirm"  value="{{ inventory.iid.iid }}"><i class="btn p-0 fas fa-times"></i></button></td>
                             </tr>
                             {% endfor %}
                         </tbody>
@@ -93,6 +95,7 @@
                             <th>Model</th>
                             <th>Type</th>
                             <th>Serial Number</th>
+                            <th>Status</th>
                             <th colspan="2" class="p-0"><button class="btn btn-danger" name="remove_all" data-target="#removeConfirm" data-toggle="modal">Remove</button></th>
                         </tfoot>
                     </table>

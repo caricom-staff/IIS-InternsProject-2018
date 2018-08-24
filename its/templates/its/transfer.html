@@ -23,7 +23,7 @@
         <div class="container">
             <div class="mx-2 row">
                 <div class="col">
-                    <h2><i class="fa fa-exchange-alt"></i> Transfer items in the inventory...<i class="fas fa-dolly-flatbed"></i></h2>
+                    <a href="/transfer" id="a"><h2><i class="fa fa-exchange-alt"></i> Transfer items in the inventory...<i class="fas fa-dolly-flatbed"></i></h2></a>
                 </div>
             </div>
         </div>
@@ -59,7 +59,7 @@
         {{ result }}<strong> Results Found </strong>
     </div>
 
-    <div class="mx-3 mt-3 alert alert-info alert-dismissable fade show {{display1}}">
+    <div class="mx-3 mt-3 alert alert-success alert-dismissable fade show {{display1}}">
         <button class="close" data-dismiss="alert" type="button"><span>&times;</span></button>
         <strong>Successful! </strong>The item(s) were transfered.
     </div>
@@ -77,6 +77,7 @@
                                 <th>Model</th>
                                 <th>Type</th>
                                 <th>Serial Number</th>
+                                <th>Status</th>
                                 <th colspan="2">Select</th>
                             </tr>
                         </thead>
@@ -84,12 +85,13 @@
                             {% for inventory in inventorys %}
                             <tr>
                                 <th scope="row"></th>
-                                <td>{{ inventory.manufacture_name }}</td>
-                                <td>{{ inventory.model_name }}</td>
-                                <td>{{ inventory.device_type }}</td>
-                                <td>{{ inventory.serial_number }}</td>
-                                <td class="text-center px-0"><input value="{{ inventory.iid }}" onclick="set(this)" type="checkbox"></td>
-                                <td class="text-center p-0"><button onclick="getid(this)" data-toggle="modal" data-target="#transferConfirm" value="{{ inventory.iid }}" class="btn btn-success p-0 px-1"><i class="p-0 fas fa-exchange-alt"></i></button></td>
+                                <td>{{ inventory.iid.manufacture_name }}</td>
+                                <td>{{ inventory.iid.model_name }}</td>
+                                <td>{{ inventory.iid.device_type }}</td>
+                                <td>{{ inventory.iid.serial_number }}</td>
+                                <td>{{ inventory.status }}</td>
+                                <td class="text-center px-0"><input value="{{ inventory.iid.iid }}" onclick="set(this)" type="checkbox"></td>
+                                <td class="text-center p-0"><button onclick="getid(this)" data-toggle="modal" data-target="#transferConfirm" value="{{ inventory.iid.iid }}" class="btn btn-success p-0 px-1"><i class="p-0 fas fa-exchange-alt"></i></button></td>
                             </tr>
                             {% endfor %}
                         </tbody>
@@ -99,6 +101,7 @@
                             <th>Model</th>
                             <th>Type</th>
                             <th>Serial Number</th>
+                            <th>Status</th>
                             <th colspan="2" class="text-center p-0"></th>
                         </tfoot>
                     </table>

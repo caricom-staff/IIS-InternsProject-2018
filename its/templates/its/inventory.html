@@ -23,7 +23,7 @@
         <div class="container">
             <div class="mx-2 row">
                 <div class="col-12">
-                    <h2><i class="fas fa-database mr-2"></i> Inventory</h2>
+                    <a href="/inventory" id="a"><h2><i class="fas fa-database mr-2"></i> Inventory</h2></a>
                 </div>
             </div>
         </div>
@@ -36,16 +36,16 @@
                     <a href="../" class="btn btn-light btn-block"><i class="fa fa-arrow-left"></i> Back to Dashboard</a>
                 </div>
                 <div class="col-3 col-md-2 col-lg-1">
-                    <a href="" class="btn btn-success btn-block" data-toggle="modal" data-dismiss="modal" data-target="#addConfirm"><i class="fa fa-plus-circle"></i></a>
+                    <a href="" class="btn btn-success btn-block" data-toggle="modal" data-dismiss="modal" data-target="#addConfirm" data-toggle="tooltip" data-placement="top" title="Add item"><i class="fa fa-plus-circle"></i></a>
                 </div>
                 <div class="col-3 col-md-2 col-lg-1">
-                    <a href="" class="btn btn-danger btn-block" data-toggle="modal" data-dismiss="modal" data-target="#removeConfirm"><i class="fas fa-minus-circle"></i></a>
+                    <a href="" class="btn btn-danger btn-block" data-toggle="modal" data-dismiss="modal" data-target="#removeConfirm" data-toggle="tooltip" data-placement="top" title="Remove item(s)"><i class="fas fa-minus-circle"></i></a>
                 </div>
                 <div class="col-3 col-md-2 col-lg-1">
-                    <a href="" class="btn btn-primary btn-block" data-toggle="modal" data-dismiss="modal" data-target="#transferConfirm"><i class="fas fa-exchange-alt"></i></a>
+                    <a href="" class="btn btn-primary btn-block" data-toggle="modal" data-dismiss="modal" data-target="#transferConfirm" data-toggle="tooltip" data-placement="top" title="Transfer item(s)"><i class="fas fa-exchange-alt"></i></a>
                 </div>
                 <div class="col-3 col-md-2 col-lg-1">
-                    <a href="" class="btn btn-warning btn-block" data-toggle="modal" data-dismiss="modal" data-target="#disposeConfirm"><i class="fas fa-trash-alt"></i></a>
+                    <a href="" class="btn btn-warning btn-block" data-toggle="modal" data-dismiss="modal" data-target="#disposeConfirm" data-toggle="tooltip" data-placement="top" title="Dispose item(s))"><i class="fas fa-trash-alt"></i></a>
                 </div>                
             </div>
         </div>
@@ -65,43 +65,155 @@
         {{ result }}<strong> Results Found </strong>
     </div>
     
+    <div class="mx-3 mt-3 alert alert-success alert-dismissable fade show {{display1}}">
+        <button class="close" data-dismiss="alert" type="button"><span>&times;</span></button>
+        <strong>Successful! </strong>The item was added to the inventory.
+    </div>
+    
+    <div class="mx-3 mt-3 alert alert-success alert-dismissable fade show {{display2}}">
+        <button class="close" data-dismiss="alert" type="button"><span>&times;</span></button>
+        <strong>Successful! </strong>The item(s) were removed.
+    </div>
+
+    <div class="mx-3 mt-3 alert alert-success alert-dismissable fade show {{display3}}">
+        <button class="close" data-dismiss="alert" type="button"><span>&times;</span></button>
+        <strong>Successful! </strong>The item(s) were transfered to {{ proprietor }} at {{ location }}.
+    </div>
+    
+    <div class="mx-3 mt-3 alert alert-success alert-dismissable fade show {{display4}}">
+        <button class="close" data-dismiss="alert" type="button"><span>&times;</span></button>
+        <strong>Successful! </strong>The item(s) were disposed.
+    </div>
+    
     <div class="container-fluid mt-3">
         <div class="card shadow">
             <div class="card-header text-center"><h2>Inventory</h2></div>
-            <div class="container-fluid table-responsive">
-                <table id="example" class="table table-bordered table-sm table-hover bg-light table-striped">
-                    <thead>
-                        <tr>
+            <form id="inventoryform" method="POST" action="/inventory/" class="needs-validation" novalidate>
+                <div class="container-fluid table-responsive">
+                    <table id="example" class="table table-bordered table-sm table-hover bg-light table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Manufacture Name <i class="fa fa-sort" aria-hidden="true"></i></th>
+                                <th>Model</th>
+                                <th>Type</th>
+                                <th>Serial Number</th>
+                                <th>Status</th>
+                                <th colspan="2" class="text-center">Select</th>
+                            </tr>
+                        </thead>
+                        <tbody id="myTable">
+                            {% for inventory in inventorys %}
+                            <tr>
+                                <th scope="row"></th>
+                                <td>{{ inventory.iid.manufacture_name }}</td>
+                                <td>{{ inventory.iid.model_name }}</td>
+                                <td>{{ inventory.iid.device_type }}</td>
+                                <td>{{ inventory.iid.serial_number }}</td>
+                                <td>{{ inventory.status }}</td>
+                                <td class="text-center p-0"><input value="{{ inventory.iid.iid }}" onclick="set(this)" type="checkbox"></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                        <tfoot>
                             <th>#</th>
-                            <th>Manufacture Name <i class="fa fa-sort" aria-hidden="true"></i></th>
+                            <th>Manufacture Name</th>
                             <th>Model</th>
                             <th>Type</th>
                             <th>Serial Number</th>
-                            <th colspan="2" class="text-center">Select</th>
-                        </tr>
-                    </thead>
-                    <tbody id="myTable">
-                        {% for inventory in inventorys %}
-                        <tr>
-                            <th scope="row"></th>
-                            <td>{{ inventory.manufacture_name }}</td>
-                            <td>{{ inventory.model_name }}</td>
-                            <td>{{ inventory.device_type }}</td>
-                            <td>{{ inventory.serial_number }}</td>
-                            <td class="text-center p-0"><input class="" type="checkbox"></td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                    <tfoot>
-                        <th>#</th>
-                        <th>Manufacture Name</th>
-                        <th>Model</th>
-                        <th>Type</th>
-                        <th>Serial Number</th>
-                        <th class="text-center p-0"><span class="btn btn-dark m-0">Select</span></th>
-                    </tfoot>
-                </table>
-            </div>
+                            <th>Status</th>
+                            <th class="text-center p-0">Select</th>
+                        </tfoot>
+                    </table>
+                </div>
+                    <!--Remove Form Modal-->
+                    <div class="modal fade text-dark" id="remove">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title h1" id="confirmModalTitle">Remove Items</h5>
+                                    <button class="close" data-dismiss="modal"><span>&times;</span></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group col-12 mb-5">
+                                        <label for="reason" class="h4">Reason</label>
+                                        <textarea name="remarks" type="text" id="rReason" class="form-control h-100"></textarea>
+                                        <div class="valid-feedback">
+                                            Looks okay!
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            Please give a reason for removing items.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-success" type="submit" id="removeSubmit" form="inventoryform" name="operation" value="Remove">Yes</button>
+                                    <button class="btn btn-danger" data-dismiss="modal">No</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Transfer Form Modal-->
+                    <div class="modal fade text-dark" id="transfer">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title h1" id="confirmModalTitle">Transfer Items</h5>
+                                    <button class="close" data-dismiss="modal"><span>&times;</span></button>
+                                </div>
+                                <div class="modal-body">
+                                        <div class="form-group">
+                                            <label for="Location" class="h4">Location</label>
+                                            <input type="text" class="form-control" placeholder="Enter location" id="location" name="location">
+                                            <div class="valid-feedback">Looks okay!</div>
+                                            <div class="invalid-feedback">Please enter the new location for the items.</div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="Proprietor" class="h4">Proprietor</label>
+                                            <input type="text" class="form-control" placeholder="Proprietor" id="proprietor" name="proprietor">
+                                            <div class="valid-feedback">Looks okay!</div>
+                                            <div class="invalid-feedback">Please enter the proprietor's name.</div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="reason" class="h4">Reason</label>
+                                            <textarea name="remarks" id="tReason" class="form-control"></textarea>
+                                            <div class="valid-feedback">Looks okay!</div>
+                                            <div class="invalid-feedback">Please give a reason for transfering items.</div>
+                                        </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-success" id="transferSubmit" type="submit" form="inventoryform" name="operation" value="Transfer">Yes</button>
+                                    <button class="btn btn-danger" data-dismiss="modal">No</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Dispose Form Modal-->
+                    <div class="modal fade text-dark" id="dispose">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title h1" id="confirmModalTitle">Dispose Items</h5>
+                                    <button class="close" data-dismiss="modal"><span>&times;</span></button>
+                                </div>
+                                <div class="modal-body">
+                                        <div class="form-group">
+                                            <label for="reason" class="h4">Reason</label>
+                                            <textarea name="remarks" id="dReason" class="form-control"></textarea>
+                                            <small class="invalid-feedback">Please give a reason for diposing the items.</small>
+                                            <div class="valid-feedback">
+                                                Looks okay!
+                                            </div>
+                                        </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-success" id="disposeSubmit" type="submit" form="inventoryform" name="operation" value="Disposed">Yes</button>
+                                    <button class="btn btn-danger" data-dismiss="modal">No</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </form>
             <div class="card-footer">
                 {% if inventorys.has_other_pages %}
                 <nav>
@@ -133,190 +245,35 @@
 
     <div class="container mt-5 bg-light p-3 px-5">
         <div class="row">
-            <div class="col-md-2 d-md-block d-none btn btn-success mr-auto" data-toggle="modal" data-dismiss="modal" data-target="#add"><i class="fa fa-plus-circle"></i> Add Item</div>
-            <div class="col-md-2 d-md-block d-none btn btn-danger mr-auto" data-toggle="modal" data-dismiss="modal" data-target="#removeConfirm"><i class="fa fa-minus-circle"></i> Remove Item</div>
-            <div class="col-md-2 d-md-block d-none btn btn-primary mr-auto" data-toggle="modal" data-dismiss="modal" data-target="#transferConfirm"><i class="fa fa-exchange-alt"></i> Transfer Item</div>
-            <div class="col-md-2 d-md-block d-none btn btn-warning" data-toggle="modal" data-dismiss="modal" data-target="#disposeConfirm"><i class="fa fa-trash-alt"></i> Dispose Item</div>
+            <div class="col-md-2 d-md-block d-none btn btn-success mr-auto" data-toggle="modal" data-dismiss="modal" data-target="#addConfirm" data-toggle="tooltip" data-placement="top" title="Add item"><i class="fa fa-plus-circle"></i> Add Item</div>
+            <div class="col-md-2 d-md-block d-none btn btn-danger mr-auto" data-toggle="modal" data-dismiss="modal" data-target="#removeConfirm" data-toggle="tooltip" data-placement="top" title="Remove item(s)"><i class="fa fa-minus-circle"></i> Remove Item</div>
+            <div class="col-md-2 d-md-block d-none btn btn-primary mr-auto" data-toggle="modal" data-dismiss="modal" data-target="#transferConfirm" data-toggle="tooltip" data-placement="top" title="Transfer item(s)"><i class="fa fa-exchange-alt"></i> Transfer Item</div>
+            <div class="col-md-2 d-md-block d-none btn btn-warning" data-toggle="modal" data-dismiss="modal" data-target="#disposeConfirm" data-toggle="tooltip" data-placement="top" title="Dispose item(s)"><i class="fa fa-trash-alt"></i> Dispose Item</div>
             <div class="col-3 d-md-none">
-                <a href="#" class="btn btn-success btn-block" data-toggle="modal" data-dismiss="modal" data-target="#add"><i class="fa fa-plus-circle"></i></a>
+                <a href="#" class="btn btn-success btn-block" data-toggle="modal" data-dismiss="modal" data-target="#addConfirm" data-toggle="tooltip" data-placement="top" title="Add item"><i class="fa fa-plus-circle"></i></a>
             </div>
             <div class="col-3 d-md-none">
-                <a href="#" class="btn btn-danger btn-block" data-toggle="modal" data-dismiss="modal" data-target="#removeConfirm"><i class="fas fa-minus-circle"></i></a>
+                <a href="#" class="btn btn-danger btn-block" data-toggle="modal" data-dismiss="modal" data-target="#removeConfirm" data-toggle="tooltip" data-placement="top" title="Remove item(s)"><i class="fas fa-minus-circle"></i></a>
             </div>
             <div class="col-3 d-md-none">
-                <a href="#" class="btn btn-primary btn-block" data-toggle="modal" data-dismiss="modal" data-target="#transferConfirm"><i class="fas fa-exchange-alt"></i></a>
+                <a href="#" class="btn btn-primary btn-block" data-toggle="modal" data-dismiss="modal" data-target="#transferConfirm" data-toggle="tooltip" data-placement="top" title="Transfer item(s)"><i class="fas fa-exchange-alt"></i></a>
             </div>
             <div class="col-3 d-md-none">
-                <a href="#" class="btn btn-warning btn-block" data-toggle="modal" data-dismiss="modal" data-target="#disposeConfirm"><i class="fas fa-trash-alt"></i></a>
+                <a href="#" class="btn btn-warning btn-block" data-toggle="modal" data-dismiss="modal" data-target="#disposeConfirm" data-toggle="tooltip" data-placement="top" title="Dispose item(s)"><i class="fas fa-trash-alt"></i></a>
             </div>
         </div>
     </div>
-    <!--Remove Confirm Modal-->
-    <div class="modal fade text-dark" id="removeConfirm">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="confirmModalTitle">Confirm Remove</h5>
-                        <button class="close" data-dismiss="modal"><span>&times;</span></button>
-                    </div>
-                    <div class="modal-body">
-                        Are you sure you want to remove the item(s) selected?
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-success" data-toggle="modal" data-target="#remove" data-dismiss="modal">Yes</button>
-                        <button class="btn btn-danger" data-dismiss="modal">No</button>
-                    </div>
+    <!--Add Form Modal-->
+    <div class="modal fade text-dark" id="add">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title h1" id="confirmModalTitle">Add Item</h5>
+                    <button class="close" data-dismiss="modal"><span>&times;</span></button>
                 </div>
-            </div>
-        </div>
-    
-        <!--Remove Form Modal-->
-        <div class="modal fade text-dark" id="remove">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title h1" id="confirmModalTitle">Remove Items</h5>
-                        <button class="close" data-dismiss="modal"><span>&times;</span></button>
-                    </div>
-                    <div class="modal-body">
-                        <form action="">
-                            <div class="form-group">
-                                <label for="reason" class="h4">Reason</label>
-                                <textarea name="reason" class="form-control" required></textarea>
-                                <small>Please give a reason for removing items.</small>
-                            </div>
-                            <div class="form-group">
-                                <label for="Date" class="h4">Date</label>
-                                <div class="date">
-                                    <input type="date" class="form-control pull-right" required>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-success" data-dismiss="modal">Yes</button>
-                        <button class="btn btn-danger" data-dismiss="modal">No</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!--Transfer Confirm Modal-->
-        <div class="modal fade text-dark" id="transferConfirm">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="confirmModalTitle">Confirm Transfer</h5>
-                        <button class="close" data-dismiss="modal"><span>&times;</span></button>
-                    </div>
-                    <div class="modal-body">
-                        Are you sure you want to transfer the item(s) selected?
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-success" data-toggle="modal" data-target="#transfer" data-dismiss="modal">Yes</button>
-                        <button class="btn btn-danger" data-dismiss="modal">No</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    
-        <!--Transfer Form Modal-->
-        <div class="modal fade text-dark" id="transfer">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title h1" id="confirmModalTitle">Transfer Items</h5>
-                        <button class="close" data-dismiss="modal"><span>&times;</span></button>
-                    </div>
-                    <div class="modal-body">
-                        <form action="">
-                            <div class="form-group">
-                                <label for="Location" class="h4">Location</label>
-                                <input type="text" class="form-control" placeholder="Enter location" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="Proprietor" class="h4">Proprietor</label>
-                                <input type="text" class="form-control" placeholder="Proprietor" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="reason" class="h4">Reason</label>
-                                <textarea name="reason" class="form-control" required></textarea>
-                                <small>Please give a reason for removing items.</small>
-                            </div>
-                            <div class="form-group">
-                                <label for="Date" class="h4">Date</label>
-                                <div class="date">
-                                    <input type="date" class="form-control pull-right" required>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-success" data-dismiss="modal">Yes</button>
-                        <button class="btn btn-danger" data-dismiss="modal">No</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!--Dispose Confirm Modal-->
-    <div class="modal fade text-dark" id="disposeConfirm">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="confirmModalTitle">Confirm Dispose</h5>
-                        <button class="close" data-dismiss="modal"><span>&times;</span></button>
-                    </div>
-                    <div class="modal-body">
-                        Are you sure you want to dispose the item(s) selected?
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-success" data-toggle="modal" data-target="#dispose" data-dismiss="modal">Yes</button>
-                        <button class="btn btn-danger" data-dismiss="modal">No</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    
-        <!--Dispose Form Modal-->
-        <div class="modal fade text-dark" id="dispose">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title h1" id="confirmModalTitle">Dispose Items</h5>
-                        <button class="close" data-dismiss="modal"><span>&times;</span></button>
-                    </div>
-                    <div class="modal-body">
-                        <form action="">
-                            <div class="form-group">
-                                <label for="reason" class="h4">Reason</label>
-                                <textarea name="reason" class="form-control" required></textarea>
-                                <small>Please give a reason for diposing the items.</small>
-                            </div>
-                            <div class="form-group">
-                                <label for="Date" class="h4">Date</label>
-                                <div class="date">
-                                    <input type="date" class="form-control pull-right" required>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-success" data-dismiss="modal">Yes</button>
-                        <button class="btn btn-danger" data-dismiss="modal">No</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    
-        <!--Add Form Modal-->
-        <div class="modal fade text-dark" id="add">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title h1" id="confirmModalTitle">Add Item</h5>
-                        <button class="close" data-dismiss="modal"><span>&times;</span></button>
-                    </div>
-                    <div class="modal-body">
-                        <form class="row needs-validation" action="/inventory/" method="POST" id="addform" novalidate>
+                <div class="modal-body">
+                    <form class="needs-validation" method="POST" action="/inventory/" id="addform" novalidate>
+                        <div class="row">
                             <div class="form-group col-md-6">
                                 <label for="Manufacture Name">Manufacture Name</label>
                                 <input name="manufacture_name" type="text" id="Manufacture Name" class="form-control" required>
@@ -337,17 +294,19 @@
                                     Please enter a Model name!
                                 </div>
                             </div>
+                        </div>
+                        <div class="row">
                             <div class="form-group col-md-6">
                                 <label for="typeSelect"> Type </label>
                                 <select name="device_type" class="form-control" id="typeSelect" required>
                                     <option value="">Choose type...</option>
-                                    <option value="1">System Unit</option>
-                                    <option value="2">Printer</option>
-                                    <option value="3">Monitor</option>
-                                    <option value="4">Keyboard</option>
-                                    <option value="5">Mouse</option>
-                                    <option value="6">Laptop</option>
-                                    <option value="7">Server</option>
+                                    <option value="System Unit">System Unit</option>
+                                    <option value="Printer">Printer</option>
+                                    <option value="Monitor">Monitor</option>
+                                    <option value="Keyboard">Keyboard</option>
+                                    <option value="Mouse">Mouse</option>
+                                    <option value="Laptop">Laptop</option>
+                                    <option value="Server">Server</option>
                                 </select>
                                 <div class="valid-feedback">
                                     Looks okay!
@@ -366,17 +325,19 @@
                                     Please enter a valid Serial number!
                                 </div>
                             </div>
-                            <div class="form-group col-md-12">
-                                <label for="Location">Location</label>
-                                <input name="location" type="text" class="form-control" required>
-                                <div class="valid-feedback">
-                                    Looks okay!
-                                </div>
-                                <div class="invalid-feedback">
-                                    Please enter a Location!
-                                </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="Location">Location</label>
+                            <input name="location" type="text" class="form-control" required>
+                            <div class="valid-feedback">
+                                Looks okay!
                             </div>
-                            <div class="form-group col-md-12">
+                            <div class="invalid-feedback">
+                                Please enter a Location!
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
                                 <label for="Proprietor">Proprietor</label>
                                 <input name="proprietor" type="text" class="form-control" required>
                                 <div class="valid-feedback">
@@ -402,59 +363,114 @@
                                     Looks okay!
                                 </div>
                             </div>
-                            <!-- <div class="form-group col-md-6">
-                                <label for="Date">Date: </label>
-                                <input name="added_date" type="date" class="form-control">
-                            </div> -->
-                        </form>
-                        <div class="row mt-3 mx-auto">
-                            <div class="col-sm-4 col-md-6"></div>
-                            <div class="col-sm-4 col-md-3 col-6">
-                                <button class="btn btn-success btn-block" data-toggle="modal" data-target="#addConfirm"><i class="fa fa-check"></i> Save Item</button>
-                            </div>
-                            <div class="col-sm-4 col-md-3 col-6">
-                                <a href="" class="btn btn-danger btn-block" data-dismiss="modal"><i class="fas fa-times"></i> Cancel</a>
-                            </div>      
                         </div>
-                        <!--Add Confirm Modal-->
-                        <div class="modal text-dark" id="addConfirm">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="confirmModalTitle">Confirm Item</h5>
-                                        <button class="close" data-dismiss="modal"><span>&times;</span></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        Are you sure you want to add this item to the inventory?
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button class="btn btn-success" type="submit" form="addform">Yes</button>
-                                        <button class="btn btn-danger" data-dismiss="modal">No</button>
-                                    </div>
-                                </div>
-                            </div>
+                    </form>
+                    <div class="row mt-3 mx-auto">
+                        <div class="col-sm-4 col-md-6"></div>
+                        <div class="col-sm-4 col-md-3 col-6">
+                            <button class="btn btn-success btn-block" type="submit" id="addSubmit" form="addform" name="operation" value="Add"><i class="fa fa-check"></i> Save Item</button>
                         </div>
+                        <div class="col-sm-4 col-md-3 col-6">
+                            <a href="" class="btn btn-danger btn-block" data-dismiss="modal"><i class="fas fa-times"></i> Cancel</a>
+                        </div>      
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>          
+    <!--Add Confirm Modal-->
+    <div class="modal text-dark" id="addConfirm">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmModalTitle">Confirm Item</h5>
+                    <button class="close" data-dismiss="modal"><span>&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to add this item to the inventory?
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success" data-toggle="modal" data-target="#add" data-dismiss="modal">Yes</button>
+                    <button class="btn btn-danger" data-dismiss="modal">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Remove Confirm Modal-->
+    <div class="modal fade text-dark" id="removeConfirm">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="confirmModalTitle">Confirm Remove</h5>
+                        <button class="close" data-dismiss="modal"><span>&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to remove the item(s) selected?
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-success" onclick="setreqR()" data-toggle="modal" data-target="#remove" data-dismiss="modal">Yes</button>
+                        <button class="btn btn-danger" data-dismiss="modal">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        
+        <!--Transfer Confirm Modal-->
+        <div class="modal fade text-dark" id="transferConfirm">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="confirmModalTitle">Confirm Transfer</h5>
+                        <button class="close" data-dismiss="modal"><span>&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to transfer the item(s) selected?
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-success" onclick="setreqT()" data-toggle="modal" data-target="#transfer" data-dismiss="modal">Yes</button>
+                        <button class="btn btn-danger" data-dismiss="modal">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        
+        <!--Dispose Confirm Modal-->
+    <div class="modal fade text-dark" id="disposeConfirm">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="confirmModalTitle">Confirm Dispose</h5>
+                        <button class="close" data-dismiss="modal"><span>&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to dispose the item(s) selected?
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-success" onclick="setreqD()" data-toggle="modal" data-target="#dispose" data-dismiss="modal">Yes</button>
+                        <button class="btn btn-danger" data-dismiss="modal">No</button>
                     </div>
                 </div>
             </div>
         </div>
 
         <script>
-            (function() {
-                'use strict';
-                window.addEventListener('load', function() {
-                var forms = document.getElementsByClassName('needs-validation');
-                var validation = Array.prototype.filter.call(forms, function(form) {
-                    form.addEventListener('submit', function(event) {
-                    if (form.checkValidity() === false) {
-                        event.preventDefault();
-                        event.stopPropagation();
-                        $('#addConfirm').modal('hide');
-                    }
-                    form.classList.add('was-validated');
-                    }, false);
-                });
-                }, false);
-            })();
+            function setreqR() {
+                var att = document.createAttribute("required");
+                document.getElementById("rReason").setAttributeNode(att);
+            }
+            function setreqT() {
+                var att = document.createAttribute("required");
+                document.getElementById("tReason").setAttributeNode(att);
+                document.getElementById("location").setAttributeNode(att);
+                document.getElementById("proprietor").setAttributeNode(att);
+
+            }
+            function setreqD() {
+                var att = document.createAttribute("required");
+                document.getElementById("dReason").setAttributeNode(att);
+            }
         </script>
 {% endblock %}

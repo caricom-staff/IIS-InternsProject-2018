@@ -13,4 +13,5 @@ urlpatterns = [
     path('transfer/', views.transfer, name='transfer'),
     path('dispose/', views.dispose, name='dispose'),
     path('update/', views.update, name='update'),
+    path('inventory/item/<key>/', views.item, name='item')
 ]
