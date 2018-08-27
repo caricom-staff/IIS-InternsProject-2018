@@ -6,6 +6,7 @@ from django.views.generic import ListView
 from django.template import loader
 from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
+from django.contrib.auth.decorators import login_required
 from .models import Inventory, Staff, Transactions
 
 
@@ -19,9 +20,11 @@ def nodupes():
             seen.add(o.iid)
     return(keep)
 
+@login_required
 def dashboard(request):
     return render(request, 'its/index.html', {})
 
+@login_required
 @csrf_exempt
 def inventory(request):
     if request.method == 'POST':
@@ -159,9 +162,11 @@ def inventory(request):
             inventorys = paginator.page(paginator.num_pages)
         return render(request, 'its/inventory.html', {'inventorys': inventorys, 'display':display, 'display1': display1, 'display2': display2, 'display3': display3, 'display4': display4})
 
+@login_required
 def staff(request):
     return render(request, 'its/staff.html', {})
 
+@login_required
 @csrf_exempt
 def add(request):
     display1 = 'd-none'
@@ -173,13 +178,15 @@ def add(request):
         location = request.POST.get('location')
         proprietor = request.POST.get('proprietor')
         status = request.POST.get('status')
+        uid = requst.user.username 
+        sid = Staff.objects.get(username=uid)
         operation = 'Add'
         
         new_item = Inventory(manufacture_name=manufacture_name, model_name=model_name, device_type=device_type, serial_number=serial_number)
         new_item.save()
 
         iid = Inventory.objects.get(serial_number=serial_number)
-        add_transaction = Transactions(iid = iid, operation = operation, location = location, proprietor = proprietor, status = status)
+        add_transaction = Transactions(iid = iid,sid = sid, operation = operation, location = location, proprietor = proprietor, status = status)
         add_transaction.save()
         adddata = {
             'manufacture_name': manufacture_name,
@@ -194,6 +201,7 @@ def add(request):
     else:
         return render(request, 'its/add.html', {'display1': display1})
     
+@login_required
 @csrf_exempt
 def remove(request):
     if request.method == 'POST':
@@ -261,6 +269,7 @@ def remove(request):
             inventorys = paginator.page(paginator.num_pages)
         return render(request, 'its/remove.html', {'inventorys': inventorys, 'display': display, 'display1': display1})
 
+@login_required
 @csrf_exempt
 def transfer(request):
     if request.method == 'POST':
@@ -333,6 +342,7 @@ def transfer(request):
             inventorys = paginator.page(paginator.num_pages)
         return render(request, 'its/transfer.html', {'inventorys': inventorys, 'display': display, 'display1': display1})
 
+@login_required
 @csrf_exempt
 def dispose(request):
     if request.method == 'POST':
@@ -399,9 +409,7 @@ def dispose(request):
             inventorys = paginator.page(paginator.num_pages)
         return render(request, 'its/dispose.html', {'inventorys': inventorys, 'display': display, 'display1': display1})
 
-def login(request):
-    return render(request, 'its/login.html', {})
-
+@login_required
 @csrf_exempt
 def update(request):
     if request.method == 'POST':
@@ -470,8 +478,69 @@ def update(request):
             inventorys = paginator.page(paginator.num_pages)
         return render(request, 'its/update.html', {'inventorys': inventorys, 'display': display, 'display1': display1})
 
+@login_required
+@csrf_exempt
 def item(request, key):
-    transaction = Transactions.objects.filter(iid__iid=key)
-    item = Inventory.objects.get(iid=key)
-    return render(request, 'its/item.html', {'transaction': transaction, 'item': item})
+    display1 = 'd-none'
+    display2 = 'd-none'
+    display3 = 'd-none'
+    display4 = 'd-none'
+    if request.method == 'POST':
+        iid = request.POST.get('item')
+        operation = request.POST.get('operation')
+        if operation == 'Update':
+            remarks = request.POST.get('remarks')
+            operation = 'Change Status'
+            status = request.POST.get('status')
+            
+            item = Inventory.objects.get(iid=iid)
+            recent_value = Transactions.objects.filter(iid=iid).order_by('-date')[0]
+            Transactions.objects.create(iid = item, operation = operation, location = recent_value.location, proprietor = recent_value.proprietor, remarks = ('Updated: ', item,'Reason: ', remarks), status = status)
+            recent_transaction = Transactions.objects.filter(iid=key).order_by("-date")[0]
+            transaction = Transactions.objects.exclude(operation='Remove').filter(iid=key).order_by("-date")
+            add_transaction = Transactions.objects.get(iid=key, operation='Add')
+            
+            return render(request, 'its/item.html', {'add': add_transaction, 'recent': recent_transaction, 'transaction': transaction, 'item': item, 'display2': display2, 'display3': display3, 'display4': display4})
+        elif operation == 'Remove':
+            remarks = request.POST.get('remarks')
+            
+            item = Inventory.objects.get(iid=iid)
+            recent_value = Transactions.objects.filter(iid=item.iid).order_by('-date')[0]
+            Transactions.objects.create(iid = item, operation = operation, location = recent_value.location, proprietor = recent_value.proprietor, remarks = ('Removed: ', item,'Reason: ', remarks), status = 'Inactive')
+
+            Inventory.objects.get(pk=iid).delete()
+
+            return render(request, 'its/item.html', {'display1': display1, 'display3': display3, 'display4': display4})
+        elif operation == 'Disposed':
+            remarks = request.POST.get('remarks')
+            
+            item = Inventory.objects.get(iid=iid)
+            recent_value = Transactions.objects.filter(iid=iid).order_by('-date')[0]
+            Transactions.objects.create(iid = item, operation = operation, location = recent_value.location, proprietor = recent_value.proprietor, remarks = ('Disposed: ', item,'Reason: ', remarks), status = 'Disposed')
+            recent_transaction = Transactions.objects.filter(iid=key).order_by("-date")[0]
+            transaction = Transactions.objects.exclude(operation='Remove').filter(iid=key).order_by("-date")
+            add_transaction = Transactions.objects.get(iid=key, operation='Add')
+
+            return render(request, 'its/item.html', {'add': add_transaction, 'recent': recent_transaction, 'transaction': transaction, 'item': item, 'display1': display1, 'display2': display2, 'display3': display3})
+        else:
+            remarks = request.POST.get('remarks')
+            location = request.POST.get('location')
+            proprietor = request.POST.get('proprietor')
+            
+            item = Inventory.objects.get(iid=iid)
+            recent_value = Transactions.objects.filter(iid=iid).order_by('-date')[0]
+            Transactions.objects.create(iid = item, operation = operation, location = location, proprietor = proprietor, remarks = ('Transfered: ', item,'Reason: ', remarks), status = recent_value.status)
+            recent_transaction = Transactions.objects.filter(iid=key).order_by("-date")[0]
+            transaction = Transactions.objects.exclude(operation='Remove').filter(iid=key).order_by("-date")
+            add_transaction = Transactions.objects.get(iid=key, operation='Add')
+
+            return render(request, 'its/item.html', {'add': add_transaction, 'recent': recent_transaction, 'transaction': transaction, 'item': item, 'display1': display1, 'display2': display2, 'display4': display4, 'location': location, 'proprietor': proprietor})
+    else:
+        recent_transaction = Transactions.objects.filter(iid=key).order_by("-date")[0]
+        transaction = Transactions.objects.exclude(operation='Remove').filter(iid=key).order_by("-date")
+        add_transaction = Transactions.objects.get(iid=key, operation='Add')
+        transfer_transaction = Transactions.objects.filter(iid=key, operation='Transfer').order_by("-date")
+        update_transaction = Transactions.objects.filter(iid=key, operation='Change Status').order_by("-date")
+        item = Inventory.objects.get(iid=key)
+        return render(request, 'its/item.html', {'add': add_transaction, 'recent': recent_transaction, 'transaction': transaction, 'item': item, 'display1': display1, 'display2': display2, 'display3': display3, 'display4': display4})
     

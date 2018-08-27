@@ -16,21 +16,40 @@
 
 </head>
 <body>
+    <div id="container">
         <nav class="navbar navbar-expand-md p-2">
             <div class="container">
-                <a href="" class="navbar-brand"><img src="../../static/img/logo.png" width="50px" height="50px" alt="CARICOM Logo"><h4 class="d-inline p-0 pl-2 align-middle text-white">Inventory Tracking System</h4></a>
-                <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarNav"><span class="navbar-toggler-icon"><i class="fas fa-bars fa-lg" style="color: white;"></i></span></button>
+                <a href="" class="navbar-brand"><img src="{% static 'img/logo.png' %}" width="50px" height="50px" alt="CARICOM Logo"><h4 class="d-inline p-0 pl-2 align-middle text-white">Inventory Tracking System</h4></a>
+                <button class="navbar-toggler {% if user.is_authenticated %}{% else %}d-none{% endif %}" data-toggle="collapse" data-target="#navbarNav"><span class="navbar-toggler-icon"><i class="fas fa-bars fa-lg" style="color: white;"></i></span></button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="menu-item navbar-nav ml-auto {% if user.is_authenticated %}{% else %}d-none{% endif %}">
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Welcome {{ user.username }}</a>
+                                <div class="dropdown-menu">
+                                    <a href="profile" class="dropdown-item"><i class="fa fa-user-circle"></i> Profile</a>
+                                    <a href="settings" class="dropdown-item"><i class="fa fa-cog"></i> Settings</a>
+                                </div>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/logout" class="nav-link"><i class="fa fa-user-times"></i> Logout</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <div class="navbar_brd_btm"></div>
     {% block content %}
     {% endblock %}
+    </div>
 </body>
 <footer class="text-light pt-3">
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <p class="text-center">Copyright &copy; 2018 Caribbean Community (CARICOM) Secretariat. All Rights Reserved • Developer: Hemroy Grant, Intern, IIS</p>
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <p class="text-center">Copyright &copy; 2018 Caribbean Community (CARICOM) Secretariat. All Rights Reserved • Developer: Hemroy Grant, Intern, IIS</p>
+                </div>
             </div>
         </div>
-    </div>
 </footer>
 
     <script src="{% static 'js/jquery.min.js' %}"></script>

@@ -11,7 +11,7 @@
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a href="login" class="nav-link"><i class="fa fa-user-times"></i> Logout</a>
+                        <a href="{% url 'login' %}" class="nav-link"><i class="fa fa-user-times"></i> Logout</a>
                     </li>
                 </ul>
             </div>
@@ -38,14 +38,14 @@
                 <div class="col-3 col-md-2 col-lg-1">
                     <a href="" class="btn btn-success btn-block" data-toggle="modal" data-dismiss="modal" data-target="#addConfirm" data-toggle="tooltip" data-placement="top" title="Add item"><i class="fa fa-plus-circle"></i></a>
                 </div>
-                <div class="col-3 col-md-2 col-lg-1">
+                <div class="col-3 col-md-2 col-lg-1 {% if user.is_active %}d-none{% else %}{% endif %}">
                     <a href="" class="btn btn-danger btn-block" data-toggle="modal" data-dismiss="modal" data-target="#removeConfirm" data-toggle="tooltip" data-placement="top" title="Remove item(s)"><i class="fas fa-minus-circle"></i></a>
                 </div>
                 <div class="col-3 col-md-2 col-lg-1">
                     <a href="" class="btn btn-primary btn-block" data-toggle="modal" data-dismiss="modal" data-target="#transferConfirm" data-toggle="tooltip" data-placement="top" title="Transfer item(s)"><i class="fas fa-exchange-alt"></i></a>
                 </div>
                 <div class="col-3 col-md-2 col-lg-1">
-                    <a href="" class="btn btn-warning btn-block" data-toggle="modal" data-dismiss="modal" data-target="#disposeConfirm" data-toggle="tooltip" data-placement="top" title="Dispose item(s))"><i class="fas fa-trash-alt"></i></a>
+                    <a href="" class="btn btn-warning btn-block" data-toggle="modal" data-dismiss="modal" data-target="#disposeConfirm" data-toggle="tooltip" data-placement="top" title="Dispose item(s)"><i class="fas fa-trash-alt"></i></a>
                 </div>                
             </div>
         </div>
@@ -106,7 +106,7 @@
                             {% for inventory in inventorys %}
                             <tr>
                                 <th scope="row"></th>
-                                <td>{{ inventory.iid.manufacture_name }}</td>
+                                <td><a href="{% url 'item' key=inventory.iid.iid %}">{{ inventory.iid.manufacture_name }}</a></td>
                                 <td>{{ inventory.iid.model_name }}</td>
                                 <td>{{ inventory.iid.device_type }}</td>
                                 <td>{{ inventory.iid.serial_number }}</td>
@@ -246,13 +246,13 @@
     <div class="container mt-5 bg-light p-3 px-5">
         <div class="row">
             <div class="col-md-2 d-md-block d-none btn btn-success mr-auto" data-toggle="modal" data-dismiss="modal" data-target="#addConfirm" data-toggle="tooltip" data-placement="top" title="Add item"><i class="fa fa-plus-circle"></i> Add Item</div>
-            <div class="col-md-2 d-md-block d-none btn btn-danger mr-auto" data-toggle="modal" data-dismiss="modal" data-target="#removeConfirm" data-toggle="tooltip" data-placement="top" title="Remove item(s)"><i class="fa fa-minus-circle"></i> Remove Item</div>
+            <div class="col-md-2 btn btn-danger mr-auto {% if user.is_active %}d-none{% else %}d-md-block{% endif %}" data-toggle="modal" data-dismiss="modal" data-target="#removeConfirm" data-toggle="tooltip" data-placement="top" title="Remove item(s)"><i class="fa fa-minus-circle"></i> Remove Item</div>
             <div class="col-md-2 d-md-block d-none btn btn-primary mr-auto" data-toggle="modal" data-dismiss="modal" data-target="#transferConfirm" data-toggle="tooltip" data-placement="top" title="Transfer item(s)"><i class="fa fa-exchange-alt"></i> Transfer Item</div>
             <div class="col-md-2 d-md-block d-none btn btn-warning" data-toggle="modal" data-dismiss="modal" data-target="#disposeConfirm" data-toggle="tooltip" data-placement="top" title="Dispose item(s)"><i class="fa fa-trash-alt"></i> Dispose Item</div>
             <div class="col-3 d-md-none">
                 <a href="#" class="btn btn-success btn-block" data-toggle="modal" data-dismiss="modal" data-target="#addConfirm" data-toggle="tooltip" data-placement="top" title="Add item"><i class="fa fa-plus-circle"></i></a>
             </div>
-            <div class="col-3 d-md-none">
+            <div class="col-3 {% if user.is_active %}d-none{% else %}{% endif %}">
                 <a href="#" class="btn btn-danger btn-block" data-toggle="modal" data-dismiss="modal" data-target="#removeConfirm" data-toggle="tooltip" data-placement="top" title="Remove item(s)"><i class="fas fa-minus-circle"></i></a>
             </div>
             <div class="col-3 d-md-none">
