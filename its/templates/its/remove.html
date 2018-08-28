@@ -72,20 +72,21 @@
                                 <th>Type</th>
                                 <th>Serial Number</th>
                                 <th>Status</th>
-                                <th colspan="2">Select</th>
+                                <th class="text-center">Select</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody id="myTable">
                             {% for inventory in inventorys %}
-                            <tr>
+                            <tr data-href="{% url 'item' key=inventory.iid.iid %}">
                                 <th scope="row"></th>
-                                <td>{{ inventory.iid.manufacture_name }}</td>
-                                <td>{{ inventory.iid.model_name }}</td>
-                                <td>{{ inventory.iid.device_type }}</td>
-                                <td>{{ inventory.iid.serial_number }}</td>
-                                <td>{{ inventory.status }}</td>
+                                <td><a href="{% url 'item' key=inventory.iid.iid %}">{{ inventory.iid.manufacture_name }}</a></td>
+                                <td><a href="{% url 'item' key=inventory.iid.iid %}">{{ inventory.iid.model_name }}</a></td>
+                                <td><a href="{% url 'item' key=inventory.iid.iid %}">{{ inventory.iid.device_type }}</a></td>
+                                <td><a href="{% url 'item' key=inventory.iid.iid %}">{{ inventory.iid.serial_number }}</a></td>
+                                <td><a href="{% url 'item' key=inventory.iid.iid %}">{{ inventory.status }}</a></td>
                                 <td class="text-center px-0"><input value="{{ inventory.iid.iid }}" onclick="set(this)" type="checkbox"></td>
-                                <td class="text-center p-0"><button onclick="getid(this)" data-toggle="modal" data-target="#removeConfirm"  value="{{ inventory.iid.iid }}"><i class="btn p-0 fas fa-times"></i></button></td>
+                                <td class="text-center p-0"><button class="btn btn-danger p-0 px-1" onclick="getid(this)" data-toggle="modal" data-target="#removeConfirm"  value="{{ inventory.iid.iid }}"><i class="btn p-0 fas fa-times"></i></button></td>
                             </tr>
                             {% endfor %}
                         </tbody>
@@ -96,7 +97,8 @@
                             <th>Type</th>
                             <th>Serial Number</th>
                             <th>Status</th>
-                            <th colspan="2" class="p-0"><button class="btn btn-danger" name="remove_all" data-target="#removeConfirm" data-toggle="modal">Remove</button></th>
+                            <th class="p-0"><button class="btn btn-danger btn-block" name="remove_all" data-target="#removeConfirm" data-toggle="modal">Remove</button></th>
+                            <th></th>
                         </tfoot>
                     </table>
                     <!--Remove Form Modal-->

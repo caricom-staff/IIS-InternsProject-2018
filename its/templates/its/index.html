@@ -21,7 +21,7 @@
             <div class="col-md-8 text-center justify-content-center">
                 <div class="row">
                     <div class="col-md-4 col-sm-6 mt-4">
-                        <a href="inventory" class="custom-card">
+                        <a href="inventory" class="custom-card" data-toggle="tooltip" data-placement="top" title="Access inventory database to (edit, add, etc.)">
                             <div class="options card shadow pt-2">
                                 <span><i class="display-2 fa fa-database"></i></span>
                                 <h2>Inventory</h2>
@@ -29,7 +29,7 @@
                         </a>
                     </div>
                     <div class="col-md-4 col-sm-6 mt-4">
-                        <a href="add" class="custom-card">
+                        <a href="add" class="custom-card" data-toggle="tooltip" data-placement="top" title="Add an item to the inventory.">
                             <div class="options card shadow pt-2">
                                 <span><i class="display-2 fa fa-plus-circle"></i></span>
                                 <h2>Add</h2>
@@ -37,15 +37,15 @@
                         </a>
                     </div>
                     <div class="col-md-4 col-sm-6 mt-4">
-                        <a href="update" class="custom-card">
+                        <a href="update" class="custom-card" data-toggle="tooltip" data-placement="top" title="Update the status of an item: (Active, Inactive, Not Working).">
                             <div class="options card shadow pt-2">
                                 <span><i class="display-2 far fa-edit ml-4"></i></span>
-                                <h2>Update</h2>
+                                <h2>Update Status</h2>
                             </div>
                         </a>
                     </div>
                     <div class="col-md-4 col-sm-6 mt-4">
-                        <a href="transfer" class="custom-card">
+                        <a href="transfer" class="custom-card" data-toggle="tooltip" data-placement="top" title="Transfer an item in the inventory">
                             <div class="options card shadow pt-2">
                                 <span><i class="display-2 fas fa-exchange-alt"></i></span>
                                 <h2>Transfer</h2>
@@ -53,21 +53,30 @@
                         </a>
                     </div>
                     <div class="col-md-4 col-sm-6 mt-4">
-                        <a href="dispose" class="custom-card">
+                        <a href="dispose" class="custom-card" data-toggle="tooltip" data-placement="top" title="Dispose an item from the inventory">
                             <div class="options card shadow pt-2">
                                 <span><i class="display-2 fa fa-trash-alt"></i></span>
                                 <h2>Dispose</h2>
                             </div>
                         </a>
                     </div>
+                    {% if user.is_staff %}
                     <div class="col-md-4 col-sm-6 mt-4">
-                        <a href="remove" class="custom-card">
+                        <a href="remove" class="custom-card" data-toggle="tooltip" data-placement="top" title="Remove an item from the inventory">
                             <div class="options card shadow pt-2">
                                 <span><i class="display-2 fa fa-minus-circle"></i></span>
                                 <h2>Remove</h2>
                             </div>
                         </a>
                     </div>
+                    {% else %}
+                    <div class="col-md-4 col-sm-6 mt-4">
+                        <div class="card shadow pt-2" style="color: grey; background-color: rgba(0, 0, 0, 0.2); cursor: not-allowed;" data-toggle="tooltip" data-placement="top" title="Only Adminstrative users can remove ! Login with an Adminstrative account">
+                            <span><i class="display-2 fa fa-minus-circle"></i></span>
+                            <h2>Remove</h2>
+                        </div>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
             <div class="col-md-4 justify-content-center text-center">

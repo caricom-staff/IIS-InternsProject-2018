@@ -62,3 +62,19 @@ footer p {
 .custom-card, .custom-card:hover {
   text-decoration: none;
   color: inherit; }
+
+*[data-href] {
+    cursor: pointer;}
+
+td a {
+    display: inline-block;
+    min-height: 100%;
+    width: 100%;
+    padding: auto;}
+
+#myTable a {
+    text-decoration: none;
+    color: black;}
+
+td {
+    padding: 0;}

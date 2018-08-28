@@ -31,7 +31,7 @@
                                 </div>
                             </li>
                             <li class="nav-item">
-                                <a href="/logout" class="nav-link"><i class="fa fa-user-times"></i> Logout</a>
+                                <a href="/logout" class="nav-link" data-toggle="tooltip" data-placement="top" title="Logout"><i class="fa fa-user-times"></i> Logout</a>
                             </li>
                         </ul>
                     </div>
@@ -41,8 +41,7 @@
     {% block content %}
     {% endblock %}
     </div>
-</body>
-<footer class="text-light pt-3">
+    <footer class="text-light pt-3">
         <div class="container">
             <div class="row">
                 <div class="col">
@@ -50,8 +49,9 @@
                 </div>
             </div>
         </div>
-</footer>
+    </footer>
 
+</body>
     <script src="{% static 'js/jquery.min.js' %}"></script>
     <script src="{% static 'js/popper.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
@@ -85,6 +85,13 @@
 
         $('#myTable tr').each(function(idx){
             $(this).children().first().html(idx + 1);
+        });
+        $('*[data-href]').on("click",function(){
+            window.location = $(this).data('href');
+            return false;
+        });
+        $("td > a").on("click",function(e){
+            e.stopPropagation();
         });
     </script>
     <!-- <script src="js/jquery.min.js"></script>

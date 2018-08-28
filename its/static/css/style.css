@@ -7,11 +7,6 @@ body {
   color: white;
   text-decoration: none; }
 
-.dark-overlay {
-  background-color: rgba(0, 0, 0, 0.7);
-  width: 100%;
-  min-height: 660px; }
-
 .login_btn {
   background: #3842ad; }
 
@@ -46,7 +41,7 @@ header {
   opacity: none; }
 
 footer {
-  margin-top: 100px;
+  margin-top: 136px;
   background-color: #3842ad; }
 
 footer p {
@@ -62,3 +57,19 @@ footer p {
 .custom-card, .custom-card:hover {
   text-decoration: none;
   color: inherit; }
+
+*[data-href] {
+    cursor: pointer;}
+
+td a {
+    display: inline-block;
+    min-height: 100%;
+    width: 100%;
+    padding: auto;}
+
+#myTable a {
+    text-decoration: none;
+    color: black;}
+
+td {
+    padding: 0;}

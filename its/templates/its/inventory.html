@@ -1,23 +1,6 @@
 {% extends 'its/main-template.html' %}
 
 {% block content %}
-                <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="menu-item navbar-nav ml-auto">
-                    <li class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Welcome Admin</a>
-                        <div class="dropdown-menu">
-                            <a href="../profile" class="dropdown-item"><i class="fa fa-user-circle"></i> Profile</a>
-                            <a href="../settings" class="dropdown-item"><i class="fa fa-cog"></i> Settings</a>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{% url 'login' %}" class="nav-link"><i class="fa fa-user-times"></i> Logout</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-    <div class="navbar_brd_btm"></div>
 
     <header id="main-header" class="text-white">
         <div class="container">
@@ -32,19 +15,22 @@
     <div class="container-fluid py-2 mb-4 bg-light actions">
         <div class="container">
             <div class="row">
-                <div class="col-md-4 d-block mr-auto">
+                <div class="col-12 col-lg-4 d-block mr-auto">
                     <a href="../" class="btn btn-light btn-block"><i class="fa fa-arrow-left"></i> Back to Dashboard</a>
                 </div>
-                <div class="col-3 col-md-2 col-lg-1">
+                <div class="col-2 col-lg-1 ml-auto">
                     <a href="" class="btn btn-success btn-block" data-toggle="modal" data-dismiss="modal" data-target="#addConfirm" data-toggle="tooltip" data-placement="top" title="Add item"><i class="fa fa-plus-circle"></i></a>
                 </div>
-                <div class="col-3 col-md-2 col-lg-1 {% if user.is_active %}d-none{% else %}{% endif %}">
+                <div class="col-2 col-lg-1">
+                    <a href="" class="btn btn-secondary btn-block" data-toggle="modal" data-dismiss="modal" data-target="#updateConfirm" data-toggle="tooltip" data-placement="top" title="Update item(s)"><i class="fa fa-edit"></i></a>
+                </div>
+                <div class="col-2 col-lg-1 {% if user.is_staff %}{% else %}d-none{% endif %}">
                     <a href="" class="btn btn-danger btn-block" data-toggle="modal" data-dismiss="modal" data-target="#removeConfirm" data-toggle="tooltip" data-placement="top" title="Remove item(s)"><i class="fas fa-minus-circle"></i></a>
                 </div>
-                <div class="col-3 col-md-2 col-lg-1">
+                <div class="col-2 col-lg-1">
                     <a href="" class="btn btn-primary btn-block" data-toggle="modal" data-dismiss="modal" data-target="#transferConfirm" data-toggle="tooltip" data-placement="top" title="Transfer item(s)"><i class="fas fa-exchange-alt"></i></a>
                 </div>
-                <div class="col-3 col-md-2 col-lg-1">
+                <div class="col-2 mr-auto col-lg-1">
                     <a href="" class="btn btn-warning btn-block" data-toggle="modal" data-dismiss="modal" data-target="#disposeConfirm" data-toggle="tooltip" data-placement="top" title="Dispose item(s)"><i class="fas fa-trash-alt"></i></a>
                 </div>                
             </div>
@@ -84,6 +70,10 @@
         <button class="close" data-dismiss="alert" type="button"><span>&times;</span></button>
         <strong>Successful! </strong>The item(s) were disposed.
     </div>
+    <div class="mx-3 mt-3 alert alert-success alert-dismissable fade show {{display5}}">
+        <button class="close" data-dismiss="alert" type="button"><span>&times;</span></button>
+        <strong>Successful! </strong>The item(s) were updated to {{ status }}.
+    </div>
     
     <div class="container-fluid mt-3">
         <div class="card shadow">
@@ -104,14 +94,14 @@
                         </thead>
                         <tbody id="myTable">
                             {% for inventory in inventorys %}
-                            <tr>
+                            <tr data-href="{% url 'item' key=inventory.iid.iid %}">
                                 <th scope="row"></th>
                                 <td><a href="{% url 'item' key=inventory.iid.iid %}">{{ inventory.iid.manufacture_name }}</a></td>
-                                <td>{{ inventory.iid.model_name }}</td>
-                                <td>{{ inventory.iid.device_type }}</td>
-                                <td>{{ inventory.iid.serial_number }}</td>
-                                <td>{{ inventory.status }}</td>
-                                <td class="text-center p-0"><input value="{{ inventory.iid.iid }}" onclick="set(this)" type="checkbox"></td>
+                                <td><a href="{% url 'item' key=inventory.iid.iid %}">{{ inventory.iid.model_name }}</a></td>
+                                <td><a href="{% url 'item' key=inventory.iid.iid %}">{{ inventory.iid.device_type }}</a></td>
+                                <td><a href="{% url 'item' key=inventory.iid.iid %}">{{ inventory.iid.serial_number }}</a></td>
+                                <td><a href="{% url 'item' key=inventory.iid.iid %}">{{ inventory.status }}</a></td>
+                                <td class="text-center p-0"><input value="{{ inventory.iid.iid }}" onclick="set(this)" type="checkbox" {% if inventory.status == 'Disposed' %}disabled{% endif %}></td>
                             </tr>
                             {% endfor %}
                         </tbody>
@@ -213,6 +203,40 @@
                             </div>
                         </div>
                     </div>
+                    <!--Update Form Modal-->
+                    <div class="modal fade text-dark" id="update">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title h1" id="confirmModalTitle">Update Items</h5>
+                                    <button class="close" data-dismiss="modal"><span>&times;</span></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label for="status" class="h4">Status</label>
+                                        <select name="status" class="form-control" id="uStatus">
+                                            <option value="">Select</option>
+                                            <option value="Active">Active</option>
+                                            <option value="Inactive">Inactive</option>
+                                            <option value="Not Working">Not Working</option>
+                                        </select>
+                                        <div class="invalid-feedback">Please select a Status!</div>
+                                        <div class="valid-feedback">Looks okay!</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="reason" class="h4">Reason</label>
+                                        <textarea name="remarks" class="form-control" id="uReason"></textarea>
+                                        <small class="invalid-feedback">Please give a reason for diposing the items.</small>
+                                        <div class="valid-feedback">Looks okay!</div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-success" type="submit" form="inventoryform" name="operation" value="Update" id="updateSubmit">Yes</button>
+                                    <button class="btn btn-danger" data-dismiss="modal">No</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
             </form>
             <div class="card-footer">
                 {% if inventorys.has_other_pages %}
@@ -246,19 +270,23 @@
     <div class="container mt-5 bg-light p-3 px-5">
         <div class="row">
             <div class="col-md-2 d-md-block d-none btn btn-success mr-auto" data-toggle="modal" data-dismiss="modal" data-target="#addConfirm" data-toggle="tooltip" data-placement="top" title="Add item"><i class="fa fa-plus-circle"></i> Add Item</div>
-            <div class="col-md-2 btn btn-danger mr-auto {% if user.is_active %}d-none{% else %}d-md-block{% endif %}" data-toggle="modal" data-dismiss="modal" data-target="#removeConfirm" data-toggle="tooltip" data-placement="top" title="Remove item(s)"><i class="fa fa-minus-circle"></i> Remove Item</div>
+            <div class="col-md-2 d-md-block d-none btn btn-secondary mr-auto" data-toggle="modal" data-dismiss="modal" data-target="#updateConfirm" data-toggle="tooltip" data-placement="top" title="Update item(s)"><i class="fa fa-edit"></i> Update Item</div>
+            <div class="col-md-2 btn btn-danger mr-auto {% if user.is_staff %}d-md-block d-none{% else %}d-none{% endif %}" data-toggle="modal" data-dismiss="modal" data-target="#removeConfirm" data-toggle="tooltip" data-placement="top" title="Remove item(s)"><i class="fa fa-minus-circle"></i> Remove Item</div>
             <div class="col-md-2 d-md-block d-none btn btn-primary mr-auto" data-toggle="modal" data-dismiss="modal" data-target="#transferConfirm" data-toggle="tooltip" data-placement="top" title="Transfer item(s)"><i class="fa fa-exchange-alt"></i> Transfer Item</div>
             <div class="col-md-2 d-md-block d-none btn btn-warning" data-toggle="modal" data-dismiss="modal" data-target="#disposeConfirm" data-toggle="tooltip" data-placement="top" title="Dispose item(s)"><i class="fa fa-trash-alt"></i> Dispose Item</div>
-            <div class="col-3 d-md-none">
+            <div class="col-2 d-md-none ml-auto">
                 <a href="#" class="btn btn-success btn-block" data-toggle="modal" data-dismiss="modal" data-target="#addConfirm" data-toggle="tooltip" data-placement="top" title="Add item"><i class="fa fa-plus-circle"></i></a>
             </div>
-            <div class="col-3 {% if user.is_active %}d-none{% else %}{% endif %}">
+            <div class="col-2 d-md-none">
+                <a href="#" class="btn btn-secondary btn-block" data-toggle="modal" data-dismiss="modal" data-target="#updateConfirm" data-toggle="tooltip" data-placement="top" title="Update item(s)"><i class="fas fa-edit"></i></a>
+            </div>
+            <div class="col-2 {% if user.is_staff %}d-md-none{% else %}d-none{% endif %}">
                 <a href="#" class="btn btn-danger btn-block" data-toggle="modal" data-dismiss="modal" data-target="#removeConfirm" data-toggle="tooltip" data-placement="top" title="Remove item(s)"><i class="fas fa-minus-circle"></i></a>
             </div>
-            <div class="col-3 d-md-none">
+            <div class="col-2 d-md-none">
                 <a href="#" class="btn btn-primary btn-block" data-toggle="modal" data-dismiss="modal" data-target="#transferConfirm" data-toggle="tooltip" data-placement="top" title="Transfer item(s)"><i class="fas fa-exchange-alt"></i></a>
             </div>
-            <div class="col-3 d-md-none">
+            <div class="col-2 d-md-none mr-auto">
                 <a href="#" class="btn btn-warning btn-block" data-toggle="modal" data-dismiss="modal" data-target="#disposeConfirm" data-toggle="tooltip" data-placement="top" title="Dispose item(s)"><i class="fas fa-trash-alt"></i></a>
             </div>
         </div>
@@ -397,6 +425,25 @@
         </div>
     </div>
 
+    <!--Update Confirm Modal-->
+    <div class="modal fade text-dark" id="updateConfirm">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmModalTitle">Confirm Update</h5>
+                    <button class="close" data-dismiss="modal"><span>&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to update the item(s) selected?
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success" onclick="setreqU()" data-toggle="modal" data-target="#update" data-dismiss="modal">Yes</button>
+                    <button class="btn btn-danger" data-dismiss="modal">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!--Remove Confirm Modal-->
     <div class="modal fade text-dark" id="removeConfirm">
             <div class="modal-dialog">
@@ -438,7 +485,7 @@
     
         
         <!--Dispose Confirm Modal-->
-    <div class="modal fade text-dark" id="disposeConfirm">
+        <div class="modal fade text-dark" id="disposeConfirm">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -457,6 +504,12 @@
         </div>
 
         <script>
+            
+            function setreqT() {
+                var att = document.createAttribute("required");
+                document.getElementById("uReason").setAttributeNode(att);
+                document.getElementById("uStatus").setAttributeNode(att);
+            }
             function setreqR() {
                 var att = document.createAttribute("required");
                 document.getElementById("rReason").setAttributeNode(att);
