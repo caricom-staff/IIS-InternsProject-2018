@@ -7,11 +7,6 @@ body {
   color: white;
   text-decoration: none; }
 
-.dark-overlay {
-  background-color: rgba(0, 0, 0, 0.7);
-  width: 100%;
-  min-height: 660px; }
-
 .login_btn {
   background: #3842ad; }
 
@@ -46,7 +41,7 @@ header {
   opacity: none; }
 
 footer {
-  margin-top: 100px;
+  margin-top: 136px;
   background-color: #3842ad; }
 
 footer p {
@@ -78,3 +73,5 @@ td a {
 
 td {
     padding: 0;}
+
+#label:after { content:" *"; color: red;}

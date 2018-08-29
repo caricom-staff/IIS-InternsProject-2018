@@ -79,9 +79,8 @@
                     {% endif %}
                 </div>
             </div>
-            <div class="col-md-4 justify-content-center text-center">
-                <div class="display-1 bg-primary mt-4 w-100"></div>
-                <div class="display-1 bg-success mt-4 w-100">Graphs & Charts</div>
+            <div id="piechart" class="col-md-4">
+                <!-- <div id="piechart"></div> -->
             </div>
         </div>
     </div>
@@ -107,4 +106,28 @@
             </div>
         </div>
     </div> -->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        // Load google charts
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+        
+        // Draw the chart and set the chart values
+        function drawChart() {
+          var data = google.visualization.arrayToDataTable([
+          ['Status', 'Number of Items'],
+          ['Active', {{ active }}],
+          ['Inactive', {{ inactive }}],
+          ['Not Working', {{ not_working }}],
+          ['Disposed', {{ disposed }}],
+        ]);
+        
+          // Optional; add a title and set the width and height of the chart
+          var options = {'title':'Inventory by Status', 'width':450,'height':400};
+        
+          // Display the chart inside the <div> element with id="piechart"
+          var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+          chart.draw(data, options);
+        }
+        </script>
 {% endblock %}

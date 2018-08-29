@@ -8,7 +8,7 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
-set "VIRTUAL_ENV=C:\Users\iisintern1\IIS_ITS_2018\ITS\itsenv"
+set "VIRTUAL_ENV=C:\Users\Andrew\Downloads\Compressed\IIS-ITS-2018\itsenv"
 
 if not defined PROMPT (
     set "PROMPT=$P$G"

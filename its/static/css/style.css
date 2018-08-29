@@ -73,3 +73,5 @@ td a {
 
 td {
     padding: 0;}
+
+#label:after { content:" *"; color: red;}

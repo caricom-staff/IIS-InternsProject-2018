@@ -27,7 +27,7 @@ function global:deactivate ([switch]$NonDestructive) {
 
 deactivate -nondestructive
 
-$env:VIRTUAL_ENV="C:\Users\iisintern1\IIS_ITS_2018\ITS\itsenv"
+$env:VIRTUAL_ENV="C:\Users\Andrew\Downloads\Compressed\IIS-ITS-2018\itsenv"
 
 if (! $env:VIRTUAL_ENV_DISABLE_PROMPT) {
     # Set the prompt to include the env name

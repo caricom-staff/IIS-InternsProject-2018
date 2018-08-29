@@ -78,19 +78,21 @@
                                 <th>Type</th>
                                 <th>Serial Number</th>
                                 <th>Status</th>
+                                <th>Asset Code</th>
                                 <th class="text-center">Select</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody id="myTable">
                             {% for inventory in inventorys %}
-                            <tr data-href="{% url 'item' key=inventory.iid.iid %}">
+                            <tr>
                                 <th scope="row"></th>
-                                <td><a href="{% url 'item' key=inventory.iid.iid %}">{{ inventory.iid.manufacture_name }}</a></td>
-                                <td><a href="{% url 'item' key=inventory.iid.iid %}">{{ inventory.iid.model_name }}</a></td>
-                                <td><a href="{% url 'item' key=inventory.iid.iid %}">{{ inventory.iid.device_type }}</a></td>
-                                <td><a href="{% url 'item' key=inventory.iid.iid %}">{{ inventory.iid.serial_number }}</a></td>
-                                <td><a href="{% url 'item' key=inventory.iid.iid %}">{{ inventory.status }}</a></td>
+                                <td data-href="{% url 'item' key=inventory.iid.iid %}"><a href="{% url 'item' key=inventory.iid.iid %}">{{ inventory.iid.manufacture_name }}</a></td>
+                                <td data-href="{% url 'item' key=inventory.iid.iid %}"><a href="{% url 'item' key=inventory.iid.iid %}">{{ inventory.iid.model_name }}</a></td>
+                                <td data-href="{% url 'item' key=inventory.iid.iid %}"><a href="{% url 'item' key=inventory.iid.iid %}">{{ inventory.iid.device_type }}</a></td>
+                                <td data-href="{% url 'item' key=inventory.iid.iid %}"><a href="{% url 'item' key=inventory.iid.iid %}">{{ inventory.iid.serial_number }}</a></td>
+                                <td data-href="{% url 'item' key=inventory.iid.iid %}"><a href="{% url 'item' key=inventory.iid.iid %}">{{ inventory.status }}</a></td>
+                                <td data-href="{% url 'item' key=inventory.iid.iid %}"><a href="{% url 'item' key=inventory.iid.iid %}">{{ inventory.asset_code }}</a></td>
                                 <td class="text-center px-0"><input value="{{ inventory.iid.iid }}" onclick="set(this)" type="checkbox" {% if inventory.status == 'Disposed' %}disabled{% endif %}></td>
                                 <td class="text-center p-0"><button onclick="getid(this)" data-toggle="modal" data-target="#transferConfirm" value="{{ inventory.iid.iid }}" class="btn btn-success p-0 px-1" {% if inventory.status == 'Disposed' %}disabled{% endif %}><i class="p-0 fas fa-exchange-alt"></i></button></td>
                             </tr>
@@ -103,6 +105,7 @@
                             <th>Type</th>
                             <th>Serial Number</th>
                             <th>Status</th>
+                            <th>Asset Code</th>
                             <th class="text-center">Select</th>
                             <th></th>
                         </tfoot>
@@ -118,19 +121,19 @@
                                 <div class="modal-body">
                                     <form class="row needs-validation" id="transferformmodal" novalidate>
                                         <div class="form-group">
-                                            <label for="Location" class="h4">Location</label>
+                                            <label id="label" for="Location" class="h4">Location</label>
                                             <input type="text" class="form-control" placeholder="Enter location" name="location" required>
                                             <div class="valid-feedback">Looks okay!</div>
                                             <div class="invalid-feedback">Please enter the new location for the items.</div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="Proprietor" class="h4">Proprietor</label>
+                                            <label id="label" for="Proprietor" class="h4">Proprietor</label>
                                             <input type="text" class="form-control" placeholder="Proprietor" name="proprietor" required>
                                             <div class="valid-feedback">Looks okay!</div>
                                             <div class="invalid-feedback">Please enter the proprietor's name.</div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="reason" class="h4">Reason</label>
+                                            <label id="label" for="reason" class="h4">Reason</label>
                                             <textarea name="remarks" id="reason" class="form-control" required></textarea>
                                             <div class="valid-feedback">Looks okay!</div>
                                             <div class="invalid-feedback">Please give a reason for transfering items.</div>
@@ -290,7 +293,7 @@
         </div>
     </div> -->
 
-    <!--Remove Confirmation Modal-->
+    <!-- Remove Confirmation Modal
     <div class="modal fade text-dark" id="removeConfirm">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -307,7 +310,7 @@
                 </div>
                 </div>
         </div>
-    </div>
+    </div> -->
 
     <script>
         function getid(element) {

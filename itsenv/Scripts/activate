@@ -37,7 +37,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="C:\Users\iisintern1\IIS_ITS_2018\ITS\itsenv"
+VIRTUAL_ENV="C:\Users\Andrew\Downloads\Compressed\IIS-ITS-2018\itsenv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

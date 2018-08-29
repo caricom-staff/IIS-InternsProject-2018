@@ -69,22 +69,24 @@
                                 <th>#</th>
                                 <th>Manufacture Name <i class="fa fa-sort" aria-hidden="true"></i></th>
                                 <th>Model</th>
-                                <th>Type</th>
+                                <th>Device Type</th>
                                 <th>Serial Number</th>
                                 <th>Status</th>
+                                <th>Assert Code</th>
                                 <th class="text-center">Select</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody id="myTable">
                             {% for inventory in inventorys %}
-                            <tr data-href="{% url 'item' key=inventory.iid.iid %}">
+                            <tr>
                                 <th scope="row"></th>
-                                <td><a href="{% url 'item' key=inventory.iid.iid %}">{{ inventory.iid.manufacture_name }}</a></td>
-                                <td><a href="{% url 'item' key=inventory.iid.iid %}">{{ inventory.iid.model_name }}</a></td>
-                                <td><a href="{% url 'item' key=inventory.iid.iid %}">{{ inventory.iid.device_type }}</a></td>
-                                <td><a href="{% url 'item' key=inventory.iid.iid %}">{{ inventory.iid.serial_number }}</a></td>
-                                <td><a href="{% url 'item' key=inventory.iid.iid %}">{{ inventory.status }}</a></td>
+                                <td data-href="{% url 'item' key=inventory.iid.iid %}"><a href="{% url 'item' key=inventory.iid.iid %}">{{ inventory.iid.manufacture_name }}</a></td>
+                                <td data-href="{% url 'item' key=inventory.iid.iid %}"><a href="{% url 'item' key=inventory.iid.iid %}">{{ inventory.iid.model_name }}</a></td>
+                                <td data-href="{% url 'item' key=inventory.iid.iid %}"><a href="{% url 'item' key=inventory.iid.iid %}">{{ inventory.iid.device_type }}</a></td>
+                                <td data-href="{% url 'item' key=inventory.iid.iid %}"><a href="{% url 'item' key=inventory.iid.iid %}">{{ inventory.iid.serial_number }}</a></td>
+                                <td data-href="{% url 'item' key=inventory.iid.iid %}"><a href="{% url 'item' key=inventory.iid.iid %}">{{ inventory.status }}</a></td>
+                                <td data-href="{% url 'item' key=inventory.iid.iid %}"><a href="{% url 'item' key=inventory.iid.iid %}">{{ inventory.asset_code }}</a></td>
                                 <td class="text-center px-0"><input value="{{ inventory.iid.iid }}" onclick="set(this)" type="checkbox"></td>
                                 <td class="text-center p-0"><button class="btn btn-danger p-0 px-1" onclick="getid(this)" data-toggle="modal" data-target="#removeConfirm"  value="{{ inventory.iid.iid }}"><i class="btn p-0 fas fa-times"></i></button></td>
                             </tr>
@@ -97,6 +99,7 @@
                             <th>Type</th>
                             <th>Serial Number</th>
                             <th>Status</th>
+                            <th>Asset Code</th>
                             <th class="p-0"><button class="btn btn-danger btn-block" name="remove_all" data-target="#removeConfirm" data-toggle="modal">Remove</button></th>
                             <th></th>
                         </tfoot>
@@ -112,7 +115,7 @@
                                 <div class="modal-body">
                                     <form class="row needs-validation" id="removeformmodal" novalidate>
                                         <div class="form-group col-12 mb-5">
-                                            <label for="reason" class="h4">Reason</label>
+                                            <label id="label" for="reason" class="h4">Reason</label>
                                             <textarea name="remarks" type="text" id="reason" class="form-control h-100" required></textarea>
                                             <div class="valid-feedback">
                                                 Looks okay!

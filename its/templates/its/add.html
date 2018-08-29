@@ -43,8 +43,13 @@
                     <div class="card-body">
                         <form class="row needs-validation" action="/add/" method="POST" id="addform" novalidate>
                             <div class="form-group col-md-6">
-                                <label for="Manufacture Name">Manufacture Name</label>
-                                <input name="manufacture_name" type="text" id="Manufacture Name" class="form-control" required>
+                                <label id="label" for="Manufacture Name">Manufacture Name</label>
+                                <input name="manufacture_name" type="text" id="Manufacture Name" class="form-control" list="mnames" required>
+                                <datalist id="mnames">
+                                    {% for mname in names %}
+                                    <option value="{{ mname.names }}">{{ mname.names }}</option>
+                                    {% endfor %}
+                                </datalist>
                                 <div class="valid-feedback">
                                     Looks okay!
                                 </div>
@@ -53,7 +58,7 @@
                                 </div>
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="Model">Model</label>
+                                <label id="label" for="Model">Model</label>
                                 <input name="model_name" id="Model" type="text" class="form-control" required>
                                 <div class="valid-feedback">
                                     Looks okay!
@@ -63,7 +68,7 @@
                                 </div>
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="typeSelect"> Type </label>
+                                <label id="label" for="typeSelect">Device Type </label>
                                 <select name="device_type" class="form-control" id="typeSelect" required>
                                     <option value="">Choose type...</option>
                                     <option value="System Unit">System Unit</option>
@@ -82,7 +87,7 @@
                                 </div>
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="Serial Number">Serial Number</label>
+                                <label id="label" for="Serial Number">Serial Number</label>
                                 <input name="serial_number" type="text" class="form-control" required>
                                 <div class="valid-feedback">
                                     Valid Serial Number!
@@ -91,8 +96,8 @@
                                     Please enter a valid Serial number!
                                 </div>
                             </div>
-                            <div class="form-group col-md-12">
-                                <label for="Location">Location</label>
+                            <div class="form-group col-md-6">
+                                <label id="label" for="Location">Location</label>
                                 <input name="location" type="text" class="form-control" required>
                                 <div class="valid-feedback">
                                     Looks okay!
@@ -102,7 +107,7 @@
                                 </div>
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="Proprietor">Proprietor</label>
+                                <label id="label" for="Proprietor">Proprietor</label>
                                 <input name="proprietor" type="text" class="form-control" required>
                                 <div class="valid-feedback">
                                     Looks okay!
@@ -112,7 +117,7 @@
                                 </div>
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="#status" class="">Status</label>
+                                <label id="label" for="#status" class="">Status</label>
                                 <select name="status" class="form-control" id="status" required>
                                     <option value="">Select</option>
                                     <option value="Active">Active</option>
@@ -125,6 +130,10 @@
                                 <div class="valid-feedback">
                                     Looks okay!
                                 </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="AssetCode">Asset Code</label>
+                                <input id="AssetCode" name="asset_code" type="text" class="form-control">
                             </div>
                         </form>
                         <div class="row mt-3 mx-auto">

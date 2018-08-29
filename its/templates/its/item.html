@@ -33,7 +33,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-4 d-block mr-auto">
-                    <a href="../../" class="btn btn-light btn-block"><i class="fa fa-arrow-left"></i> Back</a>
+                    <a href="javascript:history.go(-1)" class="btn btn-light btn-block"><i class="fa fa-arrow-left"></i> Back</a>
                 </div>
                 <div class="col-3 col-md-2 col-lg-1 {% if recent.status == 'Disposed' %}d-none{% else %}{% endif %}">
                     <a href="" class="btn btn-success btn-block" data-toggle="modal" data-dismiss="modal" data-target="#updateConfirm" data-toggle="tooltip" data-placement="top" title="Update item"><i class="far fa-edit"></i></a>
@@ -77,20 +77,22 @@
                     <div class="card-header">
                         <div class="row">
                             <div class="col-8"><h1>{{ item.manufacture_name }} {{ item.model_name }}</h1></div>
-                            <div class="col-4 align-self-end"><a data-toggle="modal" data-target="#add" data-dismiss="modal" class="text-center btn btn-secondary text-white float-right">Edit</a></div>
+                            <div class="col-4 align-self-end"><button data-toggle="modal" data-target="#edit" data-dismiss="modal" class="text-center btn btn-secondary text-white float-right" {% if user.is_staff %}{% else %}disabled style="cursor: not-allowed;"  data-toggle="tooltip" data-placement="top" title="This account is not allowed to edit. Please login with an Administrator account"{% endif %}>Edit</button></div>
                         </div>
                     </div>
                     <div class="card-body">
                         <div class="container mx-auto">
                         <div class="row p-2">
                             <div class="col-md-4 ml-auto p-2 pl-5 bg-light">
+                                <div><strong>Name: </strong><span class="text-info">{{ item.manufacture_name }} {{ item.model_name }}</span></div>
                                 <div><strong>Device type: </strong><span class="text-info"> {{ item.device_type }}</span></div>
                                 <div><strong>Serial Number: </strong><span class="text-info">{{ item.serial_number }}</span></div>
-                                <div><strong>Current Status: </strong><span class="ml-2 {% if recent.status == 'Active' %}text-success{% elif recent.status == 'Inactive' %}text-warning{% else %}text-danger{% endif %}">{{ recent.status }}</span></div>
+                                <div><strong>Asset Code: </strong><span class="text-info">{{ item.asset_code }}</span></div>
                             </div>
                             <div class="col-md-4 mr-auto p-2 pl-5 bg-light">
                                 <div><strong>Location: </strong><span class="text-info"> {{ recent.location }}</span></div>
                                 <div><strong>Proprietor: </strong><span class="text-info"> {{ recent.proprietor }}</span></div>
+                                <div><strong>Current Status: </strong><span class="ml-2 {% if recent.status == 'Active' %}text-success{% elif recent.status == 'Inactive' %}text-warning{% else %}text-danger{% endif %}">{{ recent.status }}</span></div>
                                 <div><strong>Date added: </strong><span class="text-info"> {{ add.date }}</span></div>
                             </div>
                         </div>
@@ -119,6 +121,8 @@
                                         <span class="col-12 ml-5"><strong>Proprietor: </strong>{{ transactions.proprietor }}</span></div>
                                         <div><i class="fas fa-minus fa-rotate-90 fa-lg text-success"></i>
                                         <span class="col-12 ml-5"><strong>Status: </strong>{{ transactions.status }}</span></div>
+                                        <div><i class="fas fa-minus fa-rotate-90 fa-lg text-success"></i>
+                                        <span class="col-12 ml-5"><strong>Reason: </strong>{{ transactions.remarks }}</span></div>
                                         <div class="col-12 mx-4 bg-info mt-2"></div>
                                     </div>
                                 {% endfor %}
@@ -141,7 +145,7 @@
                 <div class="modal-body">
                     <form action="" method="POST" class="row needs-validation" id="removeform" novalidate>
                         <div class="form-group col-12 mb-5">
-                            <label for="reason" class="h4">Reason</label>
+                            <label id="label" for="reason" class="h4">Reason</label>
                             <textarea name="remarks" type="text" id="reason" class="form-control h-100" required></textarea>
                             <div class="valid-feedback">
                                 Looks okay!
@@ -174,7 +178,7 @@
                 <div class="modal-body">
                     <form action="" method="POST" class="row needs-validation" id="updateform" novalidate>
                         <div class="form-group col-12">
-                            <label for="status" class="h4">Status</label>
+                            <label id="label" for="status" class="h4">Status</label>
                             <select name="status" class="form-control" id="status" required>
                                 <option value="">Select</option>
                                 <option value="Active">Active</option>
@@ -185,7 +189,7 @@
                             <div class="valid-feedback">Looks okay!</div>
                         </div>
                         <div class="form-group col-12">
-                            <label for="reason" class="h4">Reason</label>
+                            <label id="label" for="reason" class="h4">Reason</label>
                             <textarea name="remarks" class="form-control" id="reason" required></textarea>
                             <small class="invalid-feedback">Please give a reason for diposing the items.</small>
                             <div class="valid-feedback">Looks okay!</div>
@@ -213,20 +217,20 @@
                 </div>
                 <div class="modal-body">
                     <form action="" method="POST" class="row needs-validation" id="transferform" novalidate>
-                        <div class="form-group">
-                            <label for="Location" class="h4">Location</label>
+                        <div class="form-group col-12">
+                            <label id="label" for="Location" class="h4">Location</label>
                             <input type="text" class="form-control" placeholder="Enter location" name="location" required>
                             <div class="valid-feedback">Looks okay!</div>
                             <div class="invalid-feedback">Please enter the new location for the items.</div>
                         </div>
-                        <div class="form-group">
-                            <label for="Proprietor" class="h4">Proprietor</label>
+                        <div class="form-group col-12">
+                            <label id="label" for="Proprietor" class="h4">Proprietor</label>
                             <input type="text" class="form-control" placeholder="Proprietor" name="proprietor" required>
                             <div class="valid-feedback">Looks okay!</div>
                             <div class="invalid-feedback">Please enter the proprietor's name.</div>
                         </div>
-                        <div class="form-group">
-                            <label for="reason" class="h4">Reason</label>
+                        <div class="form-group col-12">
+                            <label id="label" for="reason" class="h4">Reason</label>
                             <textarea name="remarks" id="reason" class="form-control" required></textarea>
                             <div class="valid-feedback">Looks okay!</div>
                             <div class="invalid-feedback">Please give a reason for transfering items.</div>
@@ -254,8 +258,8 @@
                 </div>
                 <div class="modal-body">
                     <form action="" method="POST" id="disposeform" class="row needs-validation" novalidate>
-                        <div class="form-group">
-                            <label for="reason" class="h4">Reason</label>
+                        <div class="form-group col-12">
+                            <label id="label" for="reason" class="h4">Reason</label>
                             <textarea name="remarks" class="form-control" required></textarea>
                             <small class="invalid-feedback">Please give a reason for diposing the items.</small>
                             <div class="valid-feedback">
@@ -275,8 +279,8 @@
         </div>
     </div>
 
-    <!--Add Form Modal-->
-    <div class="modal fade text-dark" id="add">
+    <!--Edit Form Modal-->
+    <div class="modal fade text-dark" id="edit">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -284,11 +288,16 @@
                         <button class="close" data-dismiss="modal"><span>&times;</span></button>
                     </div>
                     <div class="modal-body">
-                        <form class="needs-validation" method="POST" action="/inventory/" id="addform" novalidate>
+                        <form class="needs-validation" method="POST" action="" id="editform" novalidate>
                             <div class="row">
                                 <div class="form-group col-md-6">
-                                    <label for="Manufacture Name">Manufacture Name</label>
-                                    <input name="manufacture_name" type="text" id="Manufacture Name" class="form-control" required>
+                                    <label id="label" for="Manufacture Name">Manufacture Name</label>
+                                    <input name="manufacture_name" type="text" id="Manufacture Name" class="form-control" list="mnames" value="{{ item.manufacture_name }}" required>
+                                    <datalist id="mnames">
+                                        {% for mname in names %}
+                                        <option value="{{ mname.names }}">{{ mname.names }}</option>
+                                        {% endfor %}
+                                    </datalist>
                                     <div class="valid-feedback">
                                         Looks okay!
                                     </div>
@@ -297,8 +306,8 @@
                                     </div>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label for="Model">Model</label>
-                                    <input name="model_name" id="Model" type="text" class="form-control" required>
+                                    <label id="label" for="Model">Model</label>
+                                    <input name="model_name" id="Model" type="text" class="form-control" value="{{ item.model_name }}" required>
                                     <div class="valid-feedback">
                                         Looks okay!
                                     </div>
@@ -306,12 +315,10 @@
                                         Please enter a Model name!
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
                                 <div class="form-group col-md-6">
-                                    <label for="typeSelect"> Type </label>
+                                    <label id="label" for="typeSelect"> Type </label>
                                     <select name="device_type" class="form-control" id="typeSelect" required>
-                                        <option value="">Choose type...</option>
+                                        <option value="{{ item.device_type }}">{{ item.device_type }}</option>
                                         <option value="System Unit">System Unit</option>
                                         <option value="Printer">Printer</option>
                                         <option value="Monitor">Monitor</option>
@@ -328,8 +335,8 @@
                                     </div>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label for="Serial Number">Serial Number</label>
-                                    <input name="serial_number" type="text" class="form-control" required>
+                                    <label id="label" for="Serial Number">Serial Number</label>
+                                    <input name="serial_number" type="text" class="form-control" value="{{ item.serial_number }}" required>
                                     <div class="valid-feedback">
                                         Valid Serial Number!
                                     </div>
@@ -337,21 +344,19 @@
                                         Please enter a valid Serial number!
                                     </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="Location">Location</label>
-                                <input name="location" type="text" class="form-control" required>
-                                <div class="valid-feedback">
-                                    Looks okay!
-                                </div>
-                                <div class="invalid-feedback">
-                                    Please enter a Location!
-                                </div>
-                            </div>
-                            <div class="row">
                                 <div class="form-group col-md-6">
-                                    <label for="Proprietor">Proprietor</label>
-                                    <input name="proprietor" type="text" class="form-control" required>
+                                    <label id="label" for="Location">Location</label>
+                                    <input name="location" type="text" class="form-control" value="{{ recent.location }}" required>
+                                    <div class="valid-feedback">
+                                        Looks okay!
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        Please enter a Location!
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label id="label" for="Proprietor">Proprietor</label>
+                                    <input name="proprietor" type="text" class="form-control" value="{{ recent.proprietor }}" required>
                                     <div class="valid-feedback">
                                         Looks okay!
                                     </div>
@@ -360,9 +365,9 @@
                                     </div>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label for="#status" class="">Status</label>
+                                    <label id="label" for="#status" class="">Status</label>
                                     <select name="status" class="form-control" id="status" required>
-                                        <option value="">Select</option>
+                                        <option value="{{ recent.status }}">{{ recent.status }}</option>
                                         <option value="Active">Active</option>
                                         <option value="Inactive">Inactive</option>
                                         <option value="Not Working">Not Working</option>
@@ -375,8 +380,12 @@
                                         Looks okay!
                                     </div>
                                 </div>
+                                <div class="form-group col-md-6">
+                                    <label for="AssetCode">Asset Code</label>
+                                    <input id="AssetCode" name="asset_code" type="text" class="form-control">
+                                </div>
                                 <div class="form-group col-12">
-                                    <label for="reason">Reason</label>
+                                    <label id="label" for="reason">Reason</label>
                                     <textarea name="remarks" class="form-control" required></textarea>
                                     <small class="invalid-feedback">Please give a reason for diposing the items.</small>
                                     <div class="valid-feedback">
@@ -388,7 +397,7 @@
                         <div class="row mt-3 mx-auto">
                             <div class="col-sm-4 col-md-6"></div>
                             <div class="col-sm-4 col-md-3 col-6">
-                                <button class="btn btn-success btn-block" type="submit" id="addSubmit" form="addform" name="operation" value="Add"><i class="fa fa-check"></i> Save Item</button>
+                                <button class="btn btn-success btn-block" type="submit" id="editSubmit" form="editform" name="operation" value="Edit"><i class="far fa-save"></i> Save</button>
                             </div>
                             <div class="col-sm-4 col-md-3 col-6">
                                 <a href="" class="btn btn-danger btn-block" data-dismiss="modal"><i class="fas fa-times"></i> Cancel</a>
@@ -399,7 +408,7 @@
             </div>
         </div>          
         <!--Edit Confirm Modal-->
-        <div class="modal text-dark" id="addConfirm">
+        <div class="modal text-dark" id="editConfirm">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">

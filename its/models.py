@@ -20,12 +20,19 @@ class Staff(models.Model):
     def __str__(self):
         return '%s %s'%(self.first_name, self.last_name)
 
+class Mname(models.Model):
+    names = models.CharField(max_length=25, unique=True)
+
+    def __str__(self):
+        return(self.names)
+
 class Inventory(models.Model):
     iid = models.AutoField(primary_key=True)
-    manufacture_name = models.CharField(max_length=20)
+    manufacture_name = models.ForeignKey(Mname, on_delete=models.SET_NULL, null=True)
     model_name = models.CharField(max_length=20, null=True, blank=True)
     device_type = models.CharField(max_length=20)
     serial_number = models.CharField(max_length=30, unique=True)
+    asset_code = models.CharField(max_length=6, null=True, blank=True)
 
     def __str__(self):
         return '%s %s %s %s %s'%(self.iid, self.manufacture_name, self.model_name, self.device_type, self.serial_number)
@@ -47,6 +54,7 @@ class Transactions(models.Model):
         ('Remove','REMOVE'),
         ('Change Status','CHANGE STATUS'),
         ('Disposed', 'DISPOSED'),
+        ('Edit', 'EDIT'),
     )
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     sid = models.ForeignKey(Staff, on_delete=models.SET_NULL, null=True)
