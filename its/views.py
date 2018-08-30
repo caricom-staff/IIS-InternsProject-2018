@@ -1,7 +1,7 @@
 from django.db.models import Count
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.exceptions import ObjectDoesNotExist
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse
 from django.views.generic import ListView
 from django.template import loader
@@ -9,7 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from .models import Inventory, Staff, Transactions, Mname
-
+from django.conf import settings
 
 def nodupes():
     objs = Transactions.objects.exclude(iid__isnull=True).order_by("-date")
@@ -21,7 +21,7 @@ def nodupes():
             seen.add(o.iid)
     return(keep)
 
-@login_required
+@login_required #Creates a criteria that a user should be logged in to access the view
 def dashboard(request):
     inventorys = nodupes()
     total = 0
@@ -61,6 +61,28 @@ def inventory(request):
             manufacture_name = Mname.objects.get(names=manufacture_name)
             model_name = request.POST.get('model_name')
             device_type = request.POST.get('device_type')
+            serial = request.POST.get('serial_number')
+            try:
+                invalid = 'is-invalid'
+                check1 = Inventory.objects.filter(serial_number=serial)
+                display = 'd-none'
+                display1 = 'd-none'
+                display2 = 'd-none'
+                display3 = 'd-none'
+                display4 = 'd-none'
+                display5 = 'd-none'
+                inventory = nodupes()
+
+                page = request.GET.get('page', 1)
+
+                paginator = Paginator(inventory, 15)
+                try:
+                    inventorys = paginator.page(page)
+                except PageNotAnInteger:
+                    inventorys = paginator.page(paginator.num_pages)
+                return render(request, 'its/inventory.html', {'serial': serial, 'invalid': invalid, 'names': names, 'inventorys': inventorys, 'display':display, 'display1': display1, 'display2': display2, 'display3': display3, 'display4': display4, 'display5': display5})
+            except ObjectDoesNotExist:
+                pass
             serial_number = request.POST.get('serial_number')
             location = request.POST.get('location')
             proprietor = request.POST.get('proprietor')
@@ -203,7 +225,7 @@ def inventory(request):
         display4 = 'd-none'
         display5 = 'd-none'
         search_query = request.GET.get('search')
-        inventorys = Transactions.objects.filter(iid__manufacture_name__icontains=search_query) | Transactions.objects.filter(iid__model_name__icontains=search_query) | Transactions.objects.filter(iid__device_type__icontains=search_query) | Transactions.objects.filter(iid__serial_number__icontains=search_query) | Transactions.objects.filter(status__icontains=search_query) | Transactions.objects.filter(location__icontains=search_query) | Transactions.objects.filter(proprietor__icontains=search_query)
+        inventorys = Transactions.objects.filter(iid__manufacture_name__icontains=search_query) | Transactions.objects.filter(iid__model_name__icontains=search_query) | Transactions.objects.filter(iid__device_type__icontains=search_query) | Transactions.objects.filter(iid__serial_number__icontains=search_query) | Transactions.objects.filter(status__icontains=search_query) | Transactions.objects.filter(location__icontains=search_query) | Transactions.objects.filter(proprietor__icontains=search_query) | Transactions.objects.filter(iid__asset_code__icontains=search_query)
         result = inventorys.count()
         if result == 0:
             inventorys = nodupes()
@@ -227,10 +249,6 @@ def inventory(request):
         except PageNotAnInteger:
             inventorys = paginator.page(paginator.num_pages)
         return render(request, 'its/inventory.html', {'names': names, 'inventorys': inventorys, 'display':display, 'display1': display1, 'display2': display2, 'display3': display3, 'display4': display4, 'display5': display5})
-
-@login_required
-def staff(request):
-    return render(request, 'its/staff.html', {})
 
 @login_required
 @csrf_exempt
@@ -277,6 +295,8 @@ def add(request):
 @login_required
 @csrf_exempt
 def remove(request):
+    if not request.user.is_staff:
+        return redirect('%s?next=%s' % (settings.LOGIN_URL, request.path))
     if request.method == 'POST':
         display = 'd-none'
         uid = request.user
@@ -328,7 +348,7 @@ def remove(request):
     elif request.GET.get('search'):
         display1 = 'd-none'
         search_query = request.GET.get('search')
-        inventorys = Transactions.objects.filter(iid__manufacture_name__icontains=search_query) | Transactions.objects.filter(iid__model_name__icontains=search_query) | Transactions.objects.filter(iid__device_type__icontains=search_query) | Transactions.objects.filter(iid__serial_number__icontains=search_query) | Transactions.objects.filter(status__icontains=search_query) | Transactions.objects.filter(location__icontains=search_query) | Transactions.objects.filter(proprietor__icontains=search_query)
+        inventorys = Transactions.objects.filter(iid__manufacture_name__icontains=search_query) | Transactions.objects.filter(iid__asset_code__icontains=search_query) | Transactions.objects.filter(iid__model_name__icontains=search_query) | Transactions.objects.filter(iid__device_type__icontains=search_query) | Transactions.objects.filter(iid__serial_number__icontains=search_query) | Transactions.objects.filter(status__icontains=search_query) | Transactions.objects.filter(location__icontains=search_query) | Transactions.objects.filter(proprietor__icontains=search_query)
         result = inventorys.count()
         if result == 0:
             inventory = nodupes()
@@ -408,7 +428,7 @@ def transfer(request):
     elif request.GET.get('search'):
         display1 = 'd-none'
         search_query = request.GET.get('search')
-        inventorys = Transactions.objects.filter(iid__manufacture_name__icontains=search_query) | Transactions.objects.filter(iid__model_name__icontains=search_query) | Transactions.objects.filter(iid__device_type__icontains=search_query) | Transactions.objects.filter(iid__serial_number__icontains=search_query) | Transactions.objects.filter(status__icontains=search_query) | Transactions.objects.filter(location__icontains=search_query) | Transactions.objects.filter(proprietor__icontains=search_query)
+        inventorys = Transactions.objects.filter(iid__manufacture_name__icontains=search_query) | Transactions.objects.filter(iid__asset_code__icontains=search_query) | Transactions.objects.filter(iid__model_name__icontains=search_query) | Transactions.objects.filter(iid__device_type__icontains=search_query) | Transactions.objects.filter(iid__serial_number__icontains=search_query) | Transactions.objects.filter(status__icontains=search_query) | Transactions.objects.filter(location__icontains=search_query) | Transactions.objects.filter(proprietor__icontains=search_query)
         result = inventorys.count()
         if result == 0:
             inventory = nodupes()
@@ -482,7 +502,7 @@ def dispose(request):
     elif request.GET.get('search'):
         display1 = 'd-none'
         search_query = request.GET.get('search')
-        inventorys = Transactions.objects.filter(iid__manufacture_name__icontains=search_query) | Transactions.objects.filter(iid__model_name__icontains=search_query) | Transactions.objects.filter(iid__device_type__icontains=search_query) | Transactions.objects.filter(iid__serial_number__icontains=search_query) | Transactions.objects.filter(status__icontains=search_query) | Transactions.objects.filter(location__icontains=search_query) | Transactions.objects.filter(proprietor__icontains=search_query)
+        inventorys = Transactions.objects.filter(iid__manufacture_name__icontains=search_query) | Transactions.objects.filter(iid__asset_code__icontains=search_query) | Transactions.objects.filter(iid__model_name__icontains=search_query) | Transactions.objects.filter(iid__device_type__icontains=search_query) | Transactions.objects.filter(iid__serial_number__icontains=search_query) | Transactions.objects.filter(status__icontains=search_query) | Transactions.objects.filter(location__icontains=search_query) | Transactions.objects.filter(proprietor__icontains=search_query)
         result = inventorys.count()
         if result == 0:
             inventory = nodupes()
@@ -558,7 +578,7 @@ def update(request):
     elif request.GET.get('search'):
         display1 = 'd-none'
         search_query = request.GET.get('search')
-        inventorys = Transactions.objects.filter(iid__manufacture_name__icontains=search_query) | Transactions.objects.filter(iid__model_name__icontains=search_query) | Transactions.objects.filter(iid__device_type__icontains=search_query) | Transactions.objects.filter(iid__serial_number__icontains=search_query) | Transactions.objects.filter(status__icontains=search_query) | Transactions.objects.filter(location__icontains=search_query) | Transactions.objects.filter(proprietor__icontains=search_query)
+        inventorys = Transactions.objects.filter(iid__manufacture_name__icontains=search_query) | Transactions.objects.filter(iid__asset_code__icontains=search_query) | Transactions.objects.filter(iid__model_name__icontains=search_query) | Transactions.objects.filter(iid__device_type__icontains=search_query) | Transactions.objects.filter(iid__serial_number__icontains=search_query) | Transactions.objects.filter(status__icontains=search_query) | Transactions.objects.filter(location__icontains=search_query) | Transactions.objects.filter(proprietor__icontains=search_query)
         result = inventorys.count()
         if result == 0:
             inventory = nodupes()
@@ -681,4 +701,7 @@ def item(request, key):
         update_transaction = Transactions.objects.filter(iid=key, operation='Change Status').order_by("-date")
         item = Inventory.objects.get(iid=key)
         return render(request, 'its/item.html', {'names': names, 'add': add_transaction, 'recent': recent_transaction, 'transaction': transaction, 'item': item, 'display1': display1, 'display2': display2, 'display3': display3, 'display4': display4})
-    
+
+@login_required
+def staff(request):
+    return render(request, 'its/staff.html', {})

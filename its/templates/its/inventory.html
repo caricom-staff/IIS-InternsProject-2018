@@ -37,20 +37,6 @@
         </div>
     </div>
 
-    <div class="container-fluid mt-5">
-        <form action="/inventory" method="GET" class="input-group input-group-lg">
-            <input type="text" class="form-control" name="search" id="search" placeholder="Search for an item..."> 
-            <div class="input-group-prepend">
-                <button class="btn btn-secondary px-4 form-control" id="search_submit" type="submit">Search</button>
-            </div>
-        </form>
-    </div>
-
-    <div class="mx-3 mt-3 alert alert-info alert-dismissable fade show {{display}}">
-        <button class="close" data-dismiss="alert" type="button"><span>&times;</span></button>
-        {{ result }}<strong> Results Found </strong>
-    </div>
-    
     <div class="mx-3 mt-3 alert alert-success alert-dismissable fade show {{display1}}">
         <button class="close" data-dismiss="alert" type="button"><span>&times;</span></button>
         <strong>Successful! </strong>The item was added to the inventory.
@@ -73,6 +59,24 @@
     <div class="mx-3 mt-3 alert alert-success alert-dismissable fade show {{display5}}">
         <button class="close" data-dismiss="alert" type="button"><span>&times;</span></button>
         <strong>Successful! </strong>The item(s) were updated to {{ status }}.
+    </div>
+    <div class="mx-3 mt-3 alert alert-danger alert-dismissable fade {% if invalid %}show{% else %}d-none{% endif %}">
+        <button class="close" data-dismiss="alert" type="button"><span>&times;</span></button>
+        <strong>Incorret Serial Number! </strong>An item already exist with serial number: {{ serial }}.
+    </div>
+
+    <div class="container-fluid mt-5">
+        <form action="/inventory" method="GET" class="input-group input-group-lg">
+            <input type="text" class="form-control" name="search" id="search" placeholder="Search for an item..."> 
+            <div class="input-group-prepend">
+                <button class="btn btn-secondary px-4 form-control" id="search_submit" type="submit">Search</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="mx-3 mt-3 alert alert-info alert-dismissable fade show {{display}}">
+        <button class="close" data-dismiss="alert" type="button"><span>&times;</span></button>
+        {{ result }}<strong> Results Found </strong>
     </div>
     
     <div class="container-fluid mt-3">
@@ -506,7 +510,6 @@
         </div>
 
         <script>
-            
             function setreqT() {
                 var att = document.createAttribute("required");
                 document.getElementById("uReason").setAttributeNode(att);
