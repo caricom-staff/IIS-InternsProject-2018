@@ -1,0 +1,64 @@
+{% extends 'its/main-template.html' %}
+{% load static %}
+{% block content %}
+            <div class="collapse navbar-collapse" id="navbarNav"></div>
+        </div>
+    </nav>
+    <div class="navbar_brd_btm"></div>
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 mx-auto mt-5">
+                    <div class="card mt-5 login_card">
+                        <div class="card-header text-center text-light">
+                            <h2><i class="fa fa-lock"></i> Employee Login</h2>
+                        </div>
+                        <div class="card-body px-5 bg-light">
+                            {% if form.errors %}
+                            <p class="text-danger">Your username and password didn't match. Please try again.</p>
+                            {% endif %}
+
+                            {% if next %}
+                            {% if user.is_authenticated %}
+                                <p class="text-warning">Your account doesn't have access to this page. To proceed,
+                                please login with an account that has access. or <a href="javascript:history.go(-1)">Go back</a></p>
+                            {% endif %}
+                            {% endif %}
+
+                            <form method="post" action="{% url 'login' %}">
+                            {% csrf_token %}
+                            <label for="username">Username</label>
+                            <div class="input-group pb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1"><i class="fa fa-user"></i></span>
+                                </div>
+                                <input type="text" class="form-control" name="username" id="username">
+                            </div>
+                            <label for="password">Password</label>
+                            <div class="input-group pb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon2"><i class="fa fa-key"></i></span>
+                                </div>
+                                <input type="password" class="form-control" name="password" id="password">
+                            </div>
+                            <button class="login_btn text-white btn btn-block" type="submit" value="login">Login <i class="fa fa-unlock"></i></button>
+                            <input type="hidden" name="next" value="{{ next }}" />
+                            </form>
+
+                            {# Assumes you setup the password_reset view in your URLconf #}
+                            <p class="pt-3"><a href="{% url 'password_reset' %}">Forgot password?</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <style>
+        body {
+            background-image: url("{% static 'img/caricom-bg.jpg' %}");
+            background-size: cover;
+            background-attachment: fixed;
+            min-height: 660px; }
+    </style>
+{% endblock %}
