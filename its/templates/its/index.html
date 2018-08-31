@@ -1,0 +1,115 @@
+{% extends 'its/main-template.html' %}
+
+{% block content %}
+
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="menu-item navbar-nav ml-auto">
+                        <li class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Welcome Admin</a>
+                            <div class="dropdown-menu">
+                                <a href="profile" class="dropdown-item"><i class="fa fa-user-circle"></i> Profile</a>
+                                <a href="settings" class="dropdown-item"><i class="fa fa-cog"></i> Settings</a>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a href="login" class="nav-link"><i class="fa fa-user-times"></i> Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="navbar_brd_btm"></div>
+
+        <header id="main-header" class="text-white">
+            <div class="container">
+                <div class="mx-2 row">
+                    <div class="col-md-6">
+                        <h2><i class="fas fa-cog"></i> Dashboard</h2>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+    <div class="container dashboard-container">
+        <div class="row">
+            <div class="col-md-8 text-center justify-content-center">
+                <div class="row">
+                    <div class="col-md-4 col-sm-6 mt-4">
+                        <a href="add" class="custom-card">
+                            <div class="options card shadow">
+                                <span class=""><i class="display-2 fa fa-plus-circle"></i></span>
+                                <h2>Add</h2>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-4 col-sm-6 mt-4">
+                        <a href="remove" class="custom-card">
+                            <div class="options card shadow">
+                                <span><i class="display-2 fa fa-minus-circle"></i></span>
+                                <h2>Remove</h2>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-4 col-sm-6 mt-4">
+                        <a href="" class="custom-card" data-toggle="modal" data-target="#locate" data-dismiss="modal">
+                            <div class="options card shadow">
+                                <span><i class="display-2 fa fa-compass"></i></span>
+                                <h2>Locate</h2>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-4 col-sm-6 mt-4">
+                        <a href="transfer" class="custom-card">
+                            <div class="options card shadow">
+                                <span><i class="display-2 fas fa-exchange-alt"></i></span>
+                                <h2>Transfer</h2>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-4 col-sm-6 mt-4">
+                        <a href="dispose" class="custom-card">
+                            <div class="options card shadow">
+                                <span><i class="display-2 fa fa-trash-alt"></i></span>
+                                <h2>Dispose</h2>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-4 col-sm-6 mt-4">
+                        <a href="inventory" class="custom-card">
+                            <div class="options card shadow">
+                                <span><i class="display-2 fa fa-database"></i></span>
+                                <h2>Inventory</h2>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 justify-content-center text-center">
+                <div class="display-1 bg-primary mt-4 w-100"></div>
+                <div class="display-1 bg-success mt-4 w-100">Graphs & Charts</div>
+            </div>
+        </div>
+    </div>
+    <div class="container"><br></div>
+    <!--Locate Modal-->
+    <div class="modal fade text-dark" id="locate">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Locate an item...</h2><i class="fa fa-compass fa-2x fa-spin"></i>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search for an item..."> 
+                        <div class="input-group-prepend">
+                            <button class="btn btn-secondary px-4" type="submit">Search <i class="fas fa-search"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
