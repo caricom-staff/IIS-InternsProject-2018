@@ -1,0 +1,251 @@
+{% extends 'its/main-template.html' %}
+{% load static %}
+{% block content %}
+
+    <header id="main-header" class="text-white">
+        <div class="container">
+            <div class="mx-2 row">
+                <div class="col-md-6">
+                    <a href="/add" id="a"><h2><i class="fa fa-plus"></i> Add items to the inventory...<i class="fa fa-cart-plus"></i></h2></a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container-fluid py-2 mb-4 bg-light actions">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 mr-auto">
+                    <a href="../" class="btn btn-light btn-block"><i class="fa fa-arrow-left"></i> Back to Dashboard</a>
+                </div>
+                <div class="col-md-3 col-sm-6 d-none d-sm-block">
+                    <a href="" class="btn btn-success btn-block" data-toggle="modal" data-target="#addConfirm"><i class="fa fa-check"></i> Save Item</a>
+                </div>
+                <div class="col-md-3 d-none col-sm-6 d-sm-block">
+                    <a href="../" class="btn btn-danger btn-block"><i class="fas fa-times"></i> Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mx-3 mt-3 alert alert-success alert-dismissable fade show {{display1}}">
+        <button class="close" data-dismiss="alert" type="button"><span>&times;</span></button>
+        <strong>Successful! </strong>The item was added to the inventory.
+    </div>
+    
+    <div class="mx-3 mt-3 alert alert-danger alert-dismissable fade {% if invalid %}show{% else %}d-none{% endif %}">
+        <button class="close" data-dismiss="alert" type="button"><span>&times;</span></button>
+        <strong>Incorret Serial Number! </strong>An item already exist with serial number: {{ serial }}.
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="card mb-5 shadow">
+                    <div class="card-header">
+                        <h1 class="display-4">Add Item</h1>
+                    </div>
+                    <div class="card-body">
+                        <form class="row needs-validation" action="/add/" method="POST" id="addform" novalidate>
+                            <div class="form-group col-md-6">
+                                <label id="label" for="Manufacture Name">Manufacture Name</label>
+                                <input name="manufacture_name" type="text" id="Manufacture Name" class="form-control" list="mnames" required>
+                                <datalist id="mnames">
+                                    {% for mname in names %}
+                                    <option value="{{ mname.names }}">{{ mname.names }}</option>
+                                    {% endfor %}
+                                </datalist>
+                                <div class="valid-feedback">
+                                    Looks okay!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Please enter a Manufacture name!
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label id="label" for="Model">Model</label>
+                                <input name="model_name" id="Model" type="text" class="form-control" required>
+                                <div class="valid-feedback">
+                                    Looks okay!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Please enter a Model name!
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label id="label" for="typeSelect">Device Type </label>
+                                <select name="device_type" class="form-control" id="typeSelect" required>
+                                    <option value="">Choose type...</option>
+                                    <option value="System Unit">System Unit</option>
+                                    <option value="Printer">Printer</option>
+                                    <option value="Monitor">Monitor</option>
+                                    <option value="Keyboard">Keyboard</option>
+                                    <option value="Mouse">Mouse</option>
+                                    <option value="Laptop">Laptop</option>
+                                    <option value="Server">Server</option>
+                                </select>
+                                <div class="valid-feedback">
+                                    Looks okay!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Please select a Device type!
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label id="label" for="Serial Number">Serial Number</label>
+                                <input name="serial_number" type="text" class="form-control" required>
+                                <div class="valid-feedback">
+                                    Valid Serial Number!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Please enter a valid Serial number!
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label id="label" for="Location">Location</label>
+                                <input name="location" type="text" class="form-control" required>
+                                <div class="valid-feedback">
+                                    Looks okay!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Please enter a Location!
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label id="label" for="Proprietor">Proprietor</label>
+                                <input name="proprietor" type="text" class="form-control" required>
+                                <div class="valid-feedback">
+                                    Looks okay!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Please enter a valid Proprietor!
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label id="label" for="#status" class="">Status</label>
+                                <select name="status" class="form-control" id="status" required>
+                                    <option value="">Select</option>
+                                    <option value="Active">Active</option>
+                                    <option value="Inactive">Inactive</option>
+                                    <option value="Not Working">Not Working</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    Please select a Status!
+                                </div>
+                                <div class="valid-feedback">
+                                    Looks okay!
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="AssetCode">Asset Code</label>
+                                <input id="AssetCode" name="asset_code" type="text" class="form-control">
+                            </div>
+                        </form>
+                        <div class="row mt-3 mx-auto">
+                            <div class="col-sm-4 col-md-6"></div>
+                            <div class="col-sm-4 col-md-3 col-6">
+                                <button class="btn btn-success btn-block" data-toggle="modal" data-target="#addConfirm"><i class="fa fa-check"></i> Save Item</button>
+                            </div>
+                            <div class="col-sm-4 col-md-3 col-6">
+                                <a href="../" class="btn btn-danger btn-block"><i class="fas fa-times"></i> Cancel</a>
+                            </div>      
+                        </div>
+                        <!--Addition Confirmation Modal-->
+                        <div class="modal text-dark" id="addConfirm">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="confirmModalTitle">Confirm Item</h5>
+                                        <button class="close" data-dismiss="modal"><span>&times;</span></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Are you sure you want to add this item to the inventory?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-success" type="submit" form="addform">Yes</button>
+                                        <button class="btn btn-danger" data-dismiss="modal">No</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid mx-auto">
+        <div class="card shadow">
+            <div class="card-header text-center"><h2>Added Items</h2></div>
+            <div class="container-fluid table-responsive">
+                <table class="table table-bordered table-sm table-hover bg-light table-striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Manufacture Name</th>
+                            <th>Model</th>
+                            <th>Type</th>
+                            <th>Serial Number</th>
+                            <th>Location</th>
+                            <th>Proprietor</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="myTable">                        
+                        <tr>
+                            <th scope="row"></th>
+                            <td>{{ adddata.manufacture_name }}</td>
+                            <td>{{ adddata.model_name }}</td>
+                            <td>{{ adddata.device_type }}</td>
+                            <td>{{ adddata.serial_number }}</td>
+                            <td>{{ adddata.location }}</td>
+                            <td>{{ adddata.proprietor }}</td>
+                            <td>{{ adddata.status }}</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <th>#</th>
+                        <th>Manufacture Name</th>
+                        <th>Model</th>
+                        <th>Type</th>
+                        <th>Serial Number</th>
+                        <th>Location</th>
+                        <th>Proprietor</th>
+                        <th>Status</th>
+                    </tfoot>
+                </table>
+            </div>
+            <div class="card-footer">
+                <nav>
+                    <ul class="pagination justify-content-end">
+                        <li class="page-item disabled"><a href="#" class="page-link">Previous</a></li>
+                        <li class="page-item active"><a href="#" class="page-link">1</a></li>
+                        <li class="page-item"><a href="#" class="page-link">2</a></li>
+                        <li class="page-item"><a href="#" class="page-link">3</a></li>
+                        <li class="page-item"><a href="#" class="page-link">Next</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <!--Remove Confirmation Modal-->
+    <div class="modal fade text-dark" id="removeConfirm">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmModalTitle">Confirm Remove</h5>
+                    <button class="close" data-dismiss="modal"><span>&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to remove the item(s)?
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success" data-dismiss="modal">Yes</button>
+                    <button class="btn btn-danger" data-dismiss="modal">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

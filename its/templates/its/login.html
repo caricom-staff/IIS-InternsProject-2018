@@ -1,0 +1,49 @@
+{% extends 'its/main-template.html' %}
+{% load static %}
+{% block content %}
+            <div class="collapse navbar-collapse" id="navbarNav"></div>
+        </div>
+    </nav>
+    <div class="navbar_brd_btm"></div>
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 mx-auto mt-5">
+                    <div class="card mt-5 login_card">
+                        <div class="card-header text-center text-light">
+                            <h2><i class="fa fa-lock"></i> Employee Login</h2>
+                        </div>
+                        <div class="card-body px-5 bg-light">
+                            <form action="/"> 
+                                <label for="email">Email</label>
+                                <div class="input-group pb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1"><i class="fa fa-user"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="Email">
+                                </div>
+                                <label for="password">Password</label>
+                                <div class="input-group pb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon2"><i class="fa fa-key"></i></span>
+                                    </div>
+                                    <input type="password" class="form-control" placeholder="Password">
+                                </div>
+                                <button class="login_btn text-white btn btn-block" type="submit" value="login">Login <i class="fa fa-unlock"></i></button>
+                                <p class="pt-3"><a href="#" class="">Forgot Password?</a></p>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <style>
+        body {
+            background-image: url("{% static 'img/caricom-bg.jpg' %}");
+            background-size: cover;
+            background-attachment: fixed;
+            min-height: 800px; }
+    </style>
+{% endblock %}

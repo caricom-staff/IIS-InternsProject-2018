@@ -1,0 +1,102 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Inventory Tracking System</title>
+    <!-- <link rel="stylesheet" href="css/all.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/style.css"> -->
+    <link rel="stylesheet" href="{% static 'css/all.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+</head>
+<body>
+    <div id="container">
+        <nav class="navbar navbar-expand-md p-2">
+            <div class="container">
+                <a href="/" class="navbar-brand"><img src="{% static 'img/logo.png' %}" width="50px" height="50px" alt="CARICOM Logo"><h4 class="d-inline p-0 pl-2 align-middle text-white">Inventory Tracking System</h4></a>
+                <button class="navbar-toggler {% if user.is_authenticated %}{% else %}d-none{% endif %}" data-toggle="collapse" data-target="#navbarNav"><span class="navbar-toggler-icon"><i class="fas fa-bars fa-lg" style="color: white;"></i></span></button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="menu-item navbar-nav ml-auto {% if user.is_authenticated %}{% else %}d-none{% endif %}">
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" style="text-transform: capitalize;"><i class="fa fa-user"></i> Welcome {{ user.username }}</a>
+                                <div class="dropdown-menu">
+                                    <a href="profile" class="dropdown-item"><i class="fa fa-user-circle"></i> Profile</a>
+                                    <a href="settings" class="dropdown-item"><i class="fa fa-cog"></i> Settings</a>
+                                </div>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/logout" class="nav-link" data-toggle="tooltip" data-placement="top" title="Logout"><i class="fa fa-user-times"></i> Logout</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <div class="navbar_brd_btm"></div>
+    {% block content %}
+    {% endblock %}
+    </div>
+    <footer class="text-light pt-3">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <p class="text-center">Copyright &copy; 2018 Caribbean Community (CARICOM) Secretariat. All Rights Reserved • Developer: Hemroy Grant, Intern, IIS</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/popper.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/all.js' %}"></script>
+
+    <script>
+        (function() {
+            'use strict';
+            window.addEventListener('load', function() {
+            var forms = document.getElementsByClassName('needs-validation');
+            var validation = Array.prototype.filter.call(forms, function(form) {
+                form.addEventListener('submit', function(event) {
+                if (form.checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    $('#addConfirm').modal('hide');
+                }
+                form.classList.add('was-validated');
+                }, false);
+            });
+            }, false);
+        })();
+        
+        function set(element) {
+            element.classList.toggle('selected');
+            if (element.classList.contains('selected'))
+                element.name = 'item_selected';
+            else
+                element.name = '';
+        }
+
+        $('#myTable tr').each(function(idx){
+            $(this).children().first().html(idx + 1);
+        });
+        $('*[data-href]').on("click",function(){
+            window.location = $(this).data('href');
+            return false;
+        });
+        $("td > a").on("click",function(e){
+            e.stopPropagation();
+        });
+    </script>
+    <!-- <script src="js/jquery.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/all.js"></script> -->
+</body>
+</html>
