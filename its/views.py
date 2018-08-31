@@ -62,9 +62,9 @@ def inventory(request):
             model_name = request.POST.get('model_name')
             device_type = request.POST.get('device_type')
             serial = request.POST.get('serial_number')
-            try:
+            check1 = Inventory.objects.filter(serial_number=serial)
+            if check1:
                 invalid = 'is-invalid'
-                check1 = Inventory.objects.filter(serial_number=serial)
                 display = 'd-none'
                 display1 = 'd-none'
                 display2 = 'd-none'
@@ -81,33 +81,32 @@ def inventory(request):
                 except PageNotAnInteger:
                     inventorys = paginator.page(paginator.num_pages)
                 return render(request, 'its/inventory.html', {'serial': serial, 'invalid': invalid, 'names': names, 'inventorys': inventorys, 'display':display, 'display1': display1, 'display2': display2, 'display3': display3, 'display4': display4, 'display5': display5})
-            except ObjectDoesNotExist:
-                pass
-            serial_number = request.POST.get('serial_number')
-            location = request.POST.get('location')
-            proprietor = request.POST.get('proprietor')
-            status = request.POST.get('status')
-            remarks = request.POST.get('remarks')
-            asset_code = request.POST.get('asset_code')
-            new_item = Inventory(manufacture_name=manufacture_name, asset_code=asset_code, model_name=model_name, device_type=device_type, serial_number=serial_number)
-            new_item.save()
+            else:
+                serial_number = request.POST.get('serial_number')
+                location = request.POST.get('location')
+                proprietor = request.POST.get('proprietor')
+                status = request.POST.get('status')
+                remarks = request.POST.get('remarks')
+                asset_code = request.POST.get('asset_code')
+                new_item = Inventory(manufacture_name=manufacture_name, asset_code=asset_code, model_name=model_name, device_type=device_type, serial_number=serial_number)
+                new_item.save()
 
-            iid = Inventory.objects.get(serial_number=serial_number)
-            add_transaction = Transactions(iid = iid, sid = sid, operation = operation, location = location, proprietor = proprietor, status = status)
-            add_transaction.save()
-            display2 = 'd-none'
-            display3 = 'd-none'
-            display4 = 'd-none'
-            display5 = 'd-none'
-            inventory = nodupes()
-            page = request.GET.get('page', 1)
+                iid = Inventory.objects.get(serial_number=serial_number)
+                add_transaction = Transactions(iid = iid, sid = sid, operation = operation, location = location, proprietor = proprietor, status = status)
+                add_transaction.save()
+                display2 = 'd-none'
+                display3 = 'd-none'
+                display4 = 'd-none'
+                display5 = 'd-none'
+                inventory = nodupes()
+                page = request.GET.get('page', 1)
 
-            paginator = Paginator(inventory, 15)
-            try:
-                inventorys = paginator.page(page)
-            except PageNotAnInteger:
-                inventorys = paginator.page(paginator.num_pages)
-            return render(request, 'its/inventory.html', {'names': names, 'display':display, 'display2': display2, 'display3': display3, 'display4': display4, 'display5': display5, 'inventorys': inventorys})
+                paginator = Paginator(inventory, 15)
+                try:
+                    inventorys = paginator.page(page)
+                except PageNotAnInteger:
+                    inventorys = paginator.page(paginator.num_pages)
+                return render(request, 'its/inventory.html', {'names': names, 'display':display, 'display2': display2, 'display3': display3, 'display4': display4, 'display5': display5, 'inventorys': inventorys})
         elif operation == 'Remove':
             items = []
             selected_items = request.POST.getlist('item_selected')
@@ -264,31 +263,37 @@ def add(request):
         manufacture_name = Mname.objects.get(names=manufacture_name)
         model_name = request.POST.get('model_name')
         device_type = request.POST.get('device_type')
-        serial_number = request.POST.get('serial_number')
-        location = request.POST.get('location')
-        proprietor = request.POST.get('proprietor')
-        status = request.POST.get('status')
-        asset_code = request.POST.get('asset_code')
-        uid = request.user
-        sid = Staff.objects.get(username=uid)
-        operation = 'Add'
-        
-        new_item = Inventory(manufacture_name=manufacture_name, asset_code=asset_code, model_name=model_name, device_type=device_type, serial_number=serial_number)
-        new_item.save()
+        serial = request.POST.get('serial_number')
+        check1 = Inventory.objects.filter(serial_number=serial)
+        if check1:
+            invalid = 'is-invalid'
+            return render(request, 'its/add.html', {'serial': serial, 'invalid': invalid, 'names': names, 'display1': display1})
+        else:
+            serial_number = request.POST.get('serial_number')
+            location = request.POST.get('location')
+            proprietor = request.POST.get('proprietor')
+            status = request.POST.get('status')
+            asset_code = request.POST.get('asset_code')
+            uid = request.user
+            sid = Staff.objects.get(username=uid)
+            operation = 'Add'
+            
+            new_item = Inventory(manufacture_name=manufacture_name, asset_code=asset_code, model_name=model_name, device_type=device_type, serial_number=serial_number)
+            new_item.save()
 
-        iid = Inventory.objects.get(serial_number=serial_number)
-        add_transaction = Transactions(iid = iid,sid = sid, operation = operation, location = location, proprietor = proprietor, status = status)
-        add_transaction.save()
-        adddata = {
-            'manufacture_name': manufacture_name,
-            'model_name': model_name,
-            'device_type': device_type,
-            'serial_number': serial_number,
-            'location': location,
-            'proprietor': proprietor,
-            'status': status,
-        }
-        return render(request, 'its/add.html', {'names': names, 'adddata': adddata})
+            iid = Inventory.objects.get(serial_number=serial_number)
+            add_transaction = Transactions(iid = iid,sid = sid, operation = operation, location = location, proprietor = proprietor, status = status)
+            add_transaction.save()
+            adddata = {
+                'manufacture_name': manufacture_name,
+                'model_name': model_name,
+                'device_type': device_type,
+                'serial_number': serial_number,
+                'location': location,
+                'proprietor': proprietor,
+                'status': status,
+            }
+            return render(request, 'its/add.html', {'names': names, 'adddata': adddata})
     else:
         return render(request, 'its/add.html', {'names': names, 'display1': display1})
     

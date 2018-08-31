@@ -32,6 +32,11 @@
         <button class="close" data-dismiss="alert" type="button"><span>&times;</span></button>
         <strong>Successful! </strong>The item was added to the inventory.
     </div>
+    
+    <div class="mx-3 mt-3 alert alert-danger alert-dismissable fade {% if invalid %}show{% else %}d-none{% endif %}">
+        <button class="close" data-dismiss="alert" type="button"><span>&times;</span></button>
+        <strong>Incorret Serial Number! </strong>An item already exist with serial number: {{ serial }}.
+    </div>
 
     <div class="container">
         <div class="row">

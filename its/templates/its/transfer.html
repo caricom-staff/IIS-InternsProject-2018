@@ -92,7 +92,7 @@
                                 <td data-href="{% url 'item' key=inventory.iid.iid %}"><a href="{% url 'item' key=inventory.iid.iid %}">{{ inventory.iid.device_type }}</a></td>
                                 <td data-href="{% url 'item' key=inventory.iid.iid %}"><a href="{% url 'item' key=inventory.iid.iid %}">{{ inventory.iid.serial_number }}</a></td>
                                 <td data-href="{% url 'item' key=inventory.iid.iid %}"><a href="{% url 'item' key=inventory.iid.iid %}">{{ inventory.status }}</a></td>
-                                <td data-href="{% url 'item' key=inventory.iid.iid %}"><a href="{% url 'item' key=inventory.iid.iid %}">{{ inventory.asset_code }}</a></td>
+                                <td data-href="{% url 'item' key=inventory.iid.iid %}"><a href="{% url 'item' key=inventory.iid.iid %}">{{ inventory.iid.asset_code }}</a></td>
                                 <td class="text-center px-0"><input value="{{ inventory.iid.iid }}" onclick="set(this)" type="checkbox" {% if inventory.status == 'Disposed' %}disabled{% endif %}></td>
                                 <td class="text-center p-0"><button onclick="getid(this)" data-toggle="modal" data-target="#transferConfirm" value="{{ inventory.iid.iid }}" class="btn btn-success p-0 px-1" {% if inventory.status == 'Disposed' %}disabled{% endif %}><i class="p-0 fas fa-exchange-alt"></i></button></td>
                             </tr>

@@ -86,7 +86,7 @@
                                 <td data-href="{% url 'item' key=inventory.iid.iid %}"><a href="{% url 'item' key=inventory.iid.iid %}">{{ inventory.iid.device_type }}</a></td>
                                 <td data-href="{% url 'item' key=inventory.iid.iid %}"><a href="{% url 'item' key=inventory.iid.iid %}">{{ inventory.iid.serial_number }}</a></td>
                                 <td data-href="{% url 'item' key=inventory.iid.iid %}"><a href="{% url 'item' key=inventory.iid.iid %}">{{ inventory.status }}</a></td>
-                                <td data-href="{% url 'item' key=inventory.iid.iid %}"><a href="{% url 'item' key=inventory.iid.iid %}">{{ inventory.asset_code }}</a></td>
+                                <td data-href="{% url 'item' key=inventory.iid.iid %}"><a href="{% url 'item' key=inventory.iid.iid %}">{{ inventory.iid.asset_code }}</a></td>
                                 <td class="text-center px-0"><input value="{{ inventory.iid.iid }}" onclick="set(this)" type="checkbox"></td>
                                 <td class="text-center p-0"><button class="btn btn-danger p-0 px-1" onclick="getid(this)" data-toggle="modal" data-target="#removeConfirm"  value="{{ inventory.iid.iid }}"><i class="btn p-0 fas fa-times"></i></button></td>
                             </tr>
